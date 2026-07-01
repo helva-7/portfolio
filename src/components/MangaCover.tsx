@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState } from 'react';
 import { profile } from '@/data/portfolio';
 import ImagePanel from './ImagePanel';
@@ -69,11 +70,13 @@ export default function MangaCover() {
         <div className="relative flex items-center justify-center lg:justify-end">
           <div className="relative w-full max-w-md">
             {!imgError ? (
-              <img
+              <Image
                 src="/images/profile.jpg"
                 alt="Fahd Elhaloui profile"
+                width={600}
+                height={800}
                 className="w-full border-[8px] border-ink object-cover shadow-manga"
-                style={{ aspectRatio: '3/4', filter: 'grayscale(1) contrast(1.3)' }}
+                style={{ filter: 'grayscale(1) contrast(1.3)' }}
                 onError={() => setImgError(true)}
               />
             ) : (

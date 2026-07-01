@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 
 interface ImagePanelProps {
   src: string;
@@ -25,12 +26,13 @@ export default function ImagePanel({ src, label, className, broken }: ImagePanel
       }
     >
       {!error ? (
-        <img
+        <Image
           src={src}
           alt={label}
+          width={800}
+          height={600}
           className="h-full w-full object-cover"
           onError={() => setError(true)}
-          loading="lazy"
         />
       ) : null}
       {error || !src ? (
