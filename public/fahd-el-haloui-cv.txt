@@ -1,0 +1,51 @@
+FAHD EL HALOUI
+Junior DevOps & Cloud Security Engineer | SOC Automation | Azure | Docker | Python/FastAPI
++212 607 449 717 | fahd.elhaloui@uir.ac.ma | linkedin.com/in/fahd-elhaloui | github.com/helva-7 | Morocco
+
+SUMMARY
+Final-year Computer Science student specializing in Cloud and DevOps with 4 internships across enterprise SOC, DevOps, financial systems, and tracking platforms. Built 6+ applied systems spanning containerized security platforms, Azure ML inference, CI/CD support, REST APIs, dashboards, and IoT automation. Hands-on with Docker, Linux, Azure, FastAPI, React, PostgreSQL/Redis, Celery, Python, Nginx, GitHub Actions, and Power BI. Targeting junior DevOps, Cloud, SOC Automation, Platform, and Backend Engineering roles.
+
+TECHNICAL SKILLS
+Cloud/DevOps: Azure, Azure Machine Learning, Azure Blob Storage, AWS, Docker, Docker Compose, Nginx, Linux, GitHub Actions, OpenStack, Azure Functions, CI/CD
+Backend/Data: Python, Java, JavaScript, TypeScript, Shell, SQL, FastAPI, Flask, Node.js/Express, PostgreSQL, Redis, MongoDB, MariaDB, Neo4j, Pandas
+Security/Analytics: SOC automation, RBAC, script approval workflows, REST APIs, Celery, Apache Kafka, Elasticsearch, Selenium, Streamlit, Power BI, Node-RED, Git/GitHub
+
+EXPERIENCE
+DXC Technology Morocco | DevOps Engineer Intern - Enterprise SOC | Feb 2026 - Present
+- Work inside an enterprise SOC across automation scripts, environment configuration, and runbook/documentation handoffs.
+- Convert SOC requirements into reusable scripts, service configurations, validation steps, and operational notes.
+- Support infrastructure validation and secure-operations projects with reproducibility and controlled execution in mind.
+
+CDG Capital | Software Engineer Intern | Jul 2025 - Sep 2025
+- Delivered a full-stack financial operations application integrating Excel-based workflows.
+- Implemented role-based access control and database query improvements for governed access and faster reporting.
+
+Moussahamati | DevOps Engineer Intern | Jul 2024
+- Containerized application services using Docker and Docker Compose.
+- Supported CI/CD and Selenium-based delivery checks.
+
+SLAMTEC | Software Engineer Intern | Jul 2023
+- Built a responsive tracking interface with GPS mapping for real-time monitoring and clearer device visibility.
+
+PROJECTS
+Real-Time Fraud Detection System | Azure ML, Blob Storage, Python, Streamlit, Power BI
+- Owned a 5-stage Azure ML architecture from simulator to dashboards.
+- Connected model training and feature preparation to real-time REST inference.
+- Stored transaction records for audit history, maps, and trend analysis.
+
+Dokkaebi | React, FastAPI, Celery, PostgreSQL, Redis, Docker
+- Designed a 6-service Docker Compose platform with React, FastAPI, Celery, PostgreSQL, Redis, and Nginx.
+- Implemented 3-role RBAC, script verification, safety checks, isolated execution, and HTML reports.
+- Built the lifecycle from target registration to queued execution and report review.
+
+AI Voice Agent / Automation Assistant | Python, Speech Recognition, Automation APIs
+- Built speech recognition, command routing, system-control actions, and API automation modules.
+
+Smart Check-Up IoT System | Arduino, Node-RED, MariaDB, RFID
+- Developed RFID + PIN authentication with MariaDB logs.
+- Created a Node-RED dashboard for live check-ins and manual overrides.
+
+EDUCATION & CERTIFICATIONS
+International University of Rabat | Bachelor in Computer Science - Cloud and DevOps Specialization | 2022 - Expected 2026
+National School of Technologies, Casablanca | Computer Science | 2020 - 2021
+Certifications: Microsoft Azure Fundamentals / Essentials AWS Academy Cloud Foundations
