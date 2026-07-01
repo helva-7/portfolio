@@ -36,10 +36,22 @@ export default function ImagePanel({ src, label, className, broken }: ImagePanel
         />
       ) : null}
       {error || !src ? (
-        <div className="flex h-full w-full items-center justify-center bg-paper-dark p-6">
-          <div className="text-center">
-            <div className="mx-auto mb-3 h-16 w-16 border-4 border-ink/30" />
-            <p className="font-body text-xs font-bold uppercase tracking-wider text-ink/50">{label}</p>
+        <div className="relative flex h-full w-full items-center justify-center overflow-hidden bg-paper-dark p-6">
+          <div
+            className="pointer-events-none absolute inset-0 opacity-30"
+            style={{
+              backgroundImage:
+                'repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(17,17,17,0.06) 4px, rgba(17,17,17,0.06) 8px)',
+            }}
+          />
+          <div className="relative z-10 text-center">
+            <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center border-[5px] border-ink/30 bg-paper">
+              <span className="font-display text-3xl text-ink/20">?</span>
+            </div>
+            <p className="font-body text-xs font-bold uppercase tracking-wider text-ink/40">{label}</p>
+            <span className="mt-3 inline-block border-2 border-ink/20 px-2 py-0.5 font-body text-[0.45rem] font-black uppercase tracking-[0.15em] text-ink/30">
+              IMAGE PLACEHOLDER
+            </span>
           </div>
         </div>
       ) : null}
