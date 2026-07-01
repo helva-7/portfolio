@@ -29,20 +29,19 @@ export default function Home() {
 
         <QuoteDivider text="Systems that don't just work — they survive." kicker="Interlude" />
 
-        <section id="projects" className="relative z-10 mx-auto max-w-page px-4 py-24 md:px-6">
-          <Reveal>
-            <div className="mb-12">
-              <span className="border-[3px] border-ink bg-ink px-4 py-1.5 font-body text-[0.55rem] font-black uppercase tracking-[0.2em] text-paper">
-                PROJECT ARCHIVE
-              </span>
-              <h2 className="mt-3 font-display text-[clamp(3rem,8vw,6rem)] leading-[0.78] tracking-tight text-ink">
-                PROJECTS
-              </h2>
-              <p className="mt-3 max-w-xl font-body text-sm font-bold leading-6 text-ink/60">
-                {cvSummary}
-              </p>
-            </div>
-          </Reveal>
+        <section id="projects" className="relative z-10 mx-auto max-w-page overflow-visible px-4 py-24 md:px-6">
+          <div className="mb-12">
+            <span className="torn-edge-sm inline-block border-[3px] border-ink bg-ink px-4 py-1.5 font-body text-[0.55rem] font-black uppercase tracking-[0.2em] text-paper">
+              PROJECT ARCHIVE
+            </span>
+            <h2 className="paper-texture relative -ml-1 mt-2 inline-block -rotate-1 border-[6px] border-ink px-4 py-1 font-display text-[clamp(3rem,8vw,6rem)] leading-[0.78] tracking-tight text-ink shadow-manga">
+              PROJECTS
+              <span className="absolute -top-2 -right-2 h-5 w-5 bg-red" style={{ clipPath: 'polygon(100% 0, 0 0, 100% 100%)' }} />
+            </h2>
+            <p className="mt-3 max-w-xl font-body text-sm font-bold leading-6 text-ink/60">
+              {cvSummary}
+            </p>
+          </div>
 
           <div className="space-y-10 md:space-y-14">
             {projects.map((project, i) => (
