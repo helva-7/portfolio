@@ -9,6 +9,7 @@
   --red: #e23b2e;
   --yellow: #f0c541;
   --muted-blue: #426a9f;
+  --board: #e8e4db;
 }
 
 *,
@@ -23,24 +24,10 @@ html {
 
 body {
   margin: 0;
-  background-color: var(--paper);
+  background-color: var(--board);
   color: var(--ink);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background-image:
-    radial-gradient(circle at 20% 30%, rgba(17, 17, 17, 0.04) 0 1px, transparent 1px),
-    radial-gradient(circle at 80% 20%, rgba(17, 17, 17, 0.03) 0 1px, transparent 1px),
-    radial-gradient(circle at 40% 70%, rgba(226, 59, 46, 0.03) 0 1px, transparent 1px);
-  background-size: 24px 24px, 32px 32px, 18px 18px;
-  opacity: 0.6;
 }
 
 img {
@@ -48,28 +35,334 @@ img {
   max-width: 100%;
 }
 
+/* ── Whiteboard / corkboard background ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-color: var(--board);
+  background-image:
+    /* subtle whiteboard grid */
+    linear-gradient(rgba(17,17,17,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(17,17,17,0.04) 1px, transparent 1px);
+  background-size: 40px 40px, 40px 40px;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 12px;
+  z-index: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    90deg,
+    #c4a882 0px, #c4a882 2px,
+    transparent 2px, transparent 6px,
+    #c4a882 6px, #c4a882 8px,
+    transparent 8px, transparent 12px,
+    #c4a882 12px, #c4a882 14px,
+    transparent 14px, transparent 18px,
+    #c4a882 18px, #c4a882 20px,
+    transparent 20px, transparent 24px,
+    #c4a882 24px, #c4a882 26px,
+    transparent 26px, transparent 30px,
+    #c4a882 30px, #c4a882 32px,
+    transparent 32px, transparent 36px,
+    #c4a882 36px, #c4a882 38px,
+    transparent 38px, transparent 40px
+  );
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* ── Realistic paper texture ── */
+.real-paper {
+  position: relative;
+  background-color: #f7f3ed;
+  background-image:
+    /* fiber texture - vertical */
+    repeating-linear-gradient(
+      90deg,
+      transparent 0px,
+      transparent 1px,
+      rgba(139, 119, 81, 0.025) 1px,
+      rgba(139, 119, 81, 0.025) 2px,
+      transparent 2px,
+      transparent 3px,
+      rgba(139, 119, 81, 0.015) 3px,
+      rgba(139, 119, 81, 0.015) 4px
+    ),
+    /* fiber texture - horizontal */
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 1px,
+      rgba(139, 119, 81, 0.02) 1px,
+      rgba(139, 119, 81, 0.02) 2px,
+      transparent 2px,
+      transparent 4px,
+      rgba(139, 119, 81, 0.01) 4px,
+      rgba(139, 119, 81, 0.01) 5px
+    ),
+    /* grain */
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E"),
+    /* age spots / variation */
+    radial-gradient(ellipse at 15% 85%, rgba(139,119,81,0.03) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 10%, rgba(139,119,81,0.02) 0%, transparent 40%),
+    radial-gradient(ellipse at 50% 50%, rgba(139,119,81,0.015) 0%, transparent 60%);
+  background-size: 100% 100%, 100% 100%, 512px 512px, 100% 100%, 100% 100%, 100% 100%;
+}
+
+.real-paper::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.5),
+    inset 0 -1px 0 rgba(139,119,81,0.06);
+}
+
+/* ── Paper shadow (physical depth from board) ── */
+.paper-shadow {
+  box-shadow:
+    0 2px 6px rgba(17,17,17,0.12),
+    0 8px 24px rgba(17,17,17,0.08),
+    0 1px 2px rgba(17,17,17,0.05);
+}
+
+/* ── Pushpin / tack ── */
+.pin {
+  position: absolute;
+  top: -0px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.pin-head {
+  display: block;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #ff6b6b, #c0392b);
+  box-shadow:
+    0 2px 3px rgba(0,0,0,0.3),
+    inset 0 1px 2px rgba(255,255,255,0.3);
+  position: relative;
+}
+
+.pin-head::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 5px;
+  width: 6px;
+  height: 4px;
+  background: radial-gradient(ellipse, rgba(255,255,255,0.5) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: rotate(-20deg);
+}
+
+.pin-needle {
+  display: block;
+  width: 2px;
+  height: 6px;
+  background: linear-gradient(to bottom, #888, #555);
+  margin: 0 auto;
+  border-radius: 0 0 1px 1px;
+}
+
+/* ── Pin-in animation ── */
+.paper-pinned {
+  opacity: 0;
+  transition: opacity 0.01s;
+}
+
+.paper-pinned.pin-visible {
+  opacity: 1;
+}
+
+@keyframes paper-fly-in {
+  0% {
+    opacity: 0;
+    transform: translateY(120px) scale(0.85) rotate(var(--fly-rotate, -3deg));
+    filter: blur(4px);
+  }
+  40% {
+    opacity: 1;
+    filter: blur(0);
+  }
+  70% {
+    transform: translateY(-8px) scale(1.02) rotate(var(--fly-rotate, -3deg));
+  }
+  85% {
+    transform: translateY(3px) scale(0.99) rotate(var(--fly-rotate, -3deg));
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(var(--pin-rotate, 0deg));
+  }
+}
+
+.paper-pinned.pin-visible {
+  animation: paper-fly-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* ── Edge tear / rough edge ── */
+.torn-edge {
+  clip-path: polygon(
+    0% 2%, 1.5% 0.5%, 4% 0%, 8% 1%, 12% 0%, 16% 0.8%, 20% 0%,
+    24% 0.5%, 28% 0%, 32% 1%, 36% 0%, 40% 0.3%, 44% 0%, 48% 0.7%,
+    52% 0%, 56% 0.2%, 60% 0%, 64% 0.9%, 68% 0%, 72% 0.4%,
+    76% 0%, 80% 0.6%, 84% 0%, 88% 0.3%, 92% 0%, 96% 0.8%, 98% 0.2%, 100% 1%,
+    100% 98%, 98% 99.5%, 94% 100%, 90% 99%, 86% 100%, 82% 99.3%,
+    78% 100%, 74% 99.5%, 70% 100%, 66% 99.1%, 62% 100%, 58% 99.6%,
+    54% 100%, 50% 99.2%, 46% 100%, 42% 99.7%, 38% 100%, 34% 99.4%,
+    30% 100%, 26% 99.8%, 22% 100%, 18% 99.3%, 14% 100%, 10% 99.5%,
+    6% 100%, 3% 99.2%, 1% 99.8%, 0% 98%
+  );
+}
+
+/* ── Paper ball → unfold animation ── */
+.paper-ball-container {
+  width: 100%;
+  transition: all 0.01s;
+}
+
+.paper-ball-inner {
+  margin: 0 auto;
+  transition:
+    width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+    height 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+    border-radius 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+    transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity 0.3s ease-out;
+  overflow: hidden;
+}
+
+.phase-ball .paper-ball-inner {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  transform: scale(0.3) rotate(0deg);
+  opacity: 0;
+  animation: ball-roll-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: 0s;
+}
+
+.phase-unfold .paper-ball-inner {
+  width: 100%;
+  height: auto;
+  border-radius: 0%;
+  transform: scale(1) rotate(0deg);
+  opacity: 1;
+  transition:
+    width 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    height 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    border-radius 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.phase-settled .paper-ball-inner {
+  width: 100%;
+  height: auto;
+  border-radius: 0%;
+  transform: scale(1) rotate(0deg);
+  opacity: 1;
+}
+
+.paper-ball-content {
+  width: 100%;
+}
+
+.content-hidden {
+  opacity: 0;
+  transition: opacity 0.01s;
+}
+
+.content-visible {
+  opacity: 1;
+  transition: opacity 0.5s ease-out 0.3s;
+}
+
+@keyframes ball-roll-in {
+  0% {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    transform: translateY(200px) scale(0.3) rotate(720deg);
+    opacity: 0;
+    filter: blur(6px);
+  }
+  30% {
+    width: 100px;
+    height: 100px;
+    transform: translateY(-30px) scale(0.7) rotate(200deg);
+    opacity: 1;
+    filter: blur(0);
+  }
+  50% {
+    width: 130px;
+    height: 110px;
+    transform: translateY(15px) scale(0.85) rotate(80deg);
+    border-radius: 50%;
+  }
+  70% {
+    width: 120px;
+    height: 120px;
+    transform: translateY(-5px) scale(0.9) rotate(20deg);
+  }
+  100% {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    transform: translateY(0) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+/* Ball crumple visual */
+.phase-ball .real-paper,
+.phase-unfold .real-paper {
+  background-color: #f0e8d5;
+  background-image:
+    radial-gradient(ellipse at 40% 35%, rgba(139,119,81,0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 60% 65%, rgba(139,119,81,0.08) 0%, transparent 40%),
+    radial-gradient(ellipse at 20% 70%, rgba(139,119,81,0.06) 0%, transparent 30%),
+    radial-gradient(ellipse at 80% 30%, rgba(139,119,81,0.04) 0%, transparent 35%),
+    repeating-linear-gradient(45deg, transparent 0px, transparent 8px, rgba(139,119,81,0.04) 8px, rgba(139,119,81,0.04) 9px),
+    repeating-linear-gradient(-45deg, transparent 0px, transparent 10px, rgba(139,119,81,0.03) 10px, rgba(139,119,81,0.03) 11px);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
+  box-shadow:
+    inset 0 -4px 8px rgba(139,119,81,0.15),
+    inset 0 4px 8px rgba(255,255,255,0.1),
+    0 8px 32px rgba(0,0,0,0.15),
+    0 4px 12px rgba(0,0,0,0.1);
+}
+
+.phase-settled .real-paper::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.5),
+    inset 0 -1px 0 rgba(139,119,81,0.06);
+}
+
+/* ── Utility ── */
 .halftone {
   background-image:
     radial-gradient(circle, rgba(17, 17, 17, 0.08) 1px, transparent 1px);
   background-size: 4px 4px;
-}
-
-.halftone-light {
-  background-image:
-    radial-gradient(circle, rgba(17, 17, 17, 0.04) 1px, transparent 1px);
-  background-size: 6px 6px;
-}
-
-.panel-border {
-  border: 6px solid var(--ink);
-}
-
-.panel-border-thick {
-  border: 8px solid var(--ink);
-}
-
-.panel-border-thin {
-  border: 4px solid var(--ink);
 }
 
 .speech-tail::after {
@@ -96,22 +389,6 @@ img {
   .scene-bg-word {
     @apply pointer-events-none absolute select-none font-display text-[clamp(6rem,18vw,16rem)] leading-none tracking-tighter text-ink/5;
   }
-}
-
-@keyframes ink-rise {
-  0% { opacity: 0; transform: translateY(40px) rotate(-1deg); }
-  100% { opacity: 1; transform: translateY(0) rotate(0deg); }
-}
-
-@keyframes quote-wipe {
-  0% { clip-path: inset(0 100% 0 0); }
-  100% { clip-path: inset(0 0 0 0); }
-}
-
-@keyframes panel-float {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-  100% { transform: translateY(0); }
 }
 
 @keyframes glitch-shift {
@@ -146,126 +423,6 @@ img {
   animation: glitch-shift 0.6s ease-in-out infinite, glitch-flicker 1.5s ease-in-out infinite;
 }
 
-@keyframes bar-surge {
-  0% { width: 0%; }
-  60% { width: 100vw; }
-  100% { width: 100vw; }
-}
-
-@keyframes scan-line {
-  0% { transform: translateY(-100%); }
-  100% { transform: translateY(100vh); }
-}
-
-/* ── Paper texture ── */
-.paper-texture {
-  background-color: var(--paper);
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 400px 400px;
-}
-
-.paper-texture-dark {
-  background-color: var(--paper-dark);
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.06'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 400px 400px;
-}
-
-/* ── Crumple overlay (creases visible on crumpled state) ── */
-.crumple-overlay {
-  position: relative;
-}
-.crumple-overlay::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  opacity: 1;
-  transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
-  background-image:
-    linear-gradient(55deg, transparent 35%, rgba(17,17,17,0.06) 37%, transparent 39%),
-    linear-gradient(-40deg, transparent 58%, rgba(17,17,17,0.04) 60%, transparent 62%),
-    linear-gradient(75deg, transparent 22%, rgba(17,17,17,0.05) 24%, transparent 26%),
-    linear-gradient(-65deg, transparent 72%, rgba(17,17,17,0.03) 74%, transparent 76%),
-    linear-gradient(30deg, transparent 45%, rgba(17,17,17,0.04) 47%, transparent 49%),
-    linear-gradient(-20deg, transparent 65%, rgba(17,17,17,0.03) 67%, transparent 69%);
-}
-.crumple-overlay.decrumpled::before {
-  opacity: 0;
-}
-
-/* ── Crumple shadow (volume of balled-up paper) ── */
-.crumple-shadow {
-  box-shadow:
-    8px 8px 0 rgba(17,17,17,0.15),
-    3px 12px 0 rgba(17,17,17,0.08),
-    -2px 10px 0 rgba(17,17,17,0.05),
-    12px 4px 0 rgba(17,17,17,0.06);
-  transition: box-shadow 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 1s cubic-bezier(0.4, 0, 0.2, 1), filter 1s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.crumple-shadow.decrumpled {
-  box-shadow: 8px 8px 0 var(--ink);
-  filter: contrast(1) brightness(1);
-}
-
-/* ── Torn / rough edge clip (Monogatari magazine style) ── */
-.torn-edge {
-  clip-path: polygon(
-    0% 2%, 1.5% 0.5%, 4% 0%, 8% 1%, 12% 0%, 16% 0.8%, 20% 0%,
-    24% 0.5%, 28% 0%, 32% 1%, 36% 0%, 40% 0.3%, 44% 0%, 48% 0.7%,
-    52% 0%, 56% 0.2%, 60% 0%, 64% 0.9%, 68% 0%, 72% 0.4%,
-    76% 0%, 80% 0.6%, 84% 0%, 88% 0.3%, 92% 0%, 96% 0.8%, 98% 0.2%, 100% 1%,
-    100% 98%, 98% 99.5%, 94% 100%, 90% 99%, 86% 100%, 82% 99.3%,
-    78% 100%, 74% 99.5%, 70% 100%, 66% 99.1%, 62% 100%, 58% 99.6%,
-    54% 100%, 50% 99.2%, 46% 100%, 42% 99.7%, 38% 100%, 34% 99.4%,
-    30% 100%, 26% 99.8%, 22% 100%, 18% 99.3%, 14% 100%, 10% 99.5%,
-    6% 100%, 3% 99.2%, 1% 99.8%, 0% 98%
-  );
-}
-
-.torn-edge-sm {
-  clip-path: polygon(
-    0% 1.5%, 2% 0%, 6% 1%, 10% 0%, 14% 0.5%, 18% 0%, 22% 1%,
-    26% 0%, 30% 0.3%, 34% 0%, 38% 0.8%, 42% 0%, 46% 0.4%,
-    50% 0%, 54% 0.7%, 58% 0%, 62% 0.2%, 66% 0%, 70% 0.6%,
-    74% 0%, 78% 0.4%, 82% 0%, 86% 0.9%, 90% 0%, 94% 0.5%, 100% 0%,
-    100% 98%, 96% 100%, 92% 99%, 88% 100%, 84% 99.5%,
-    80% 100%, 76% 99.3%, 72% 100%, 68% 99.7%, 64% 100%,
-    60% 99.2%, 56% 100%, 52% 99.6%, 48% 100%, 44% 99.4%,
-    40% 100%, 36% 99.8%, 32% 100%, 28% 99.5%, 24% 100%,
-    20% 99.3%, 16% 100%, 12% 99.7%, 8% 100%, 4% 99.5%, 0% 99%
-  );
-}
-
-/* ── Decrumple entrance ── */
-.crumple-enter {
-  filter: contrast(0.88) brightness(0.92) saturate(0.7);
-  transform: scale(0.85) rotate(-4deg);
-}
-.crumple-enter.decrumpled {
-  filter: contrast(1) brightness(1) saturate(1);
-  transform: scale(1) rotate(0deg);
-}
-
-/* ── Paper magazine accent slash ── */
-.paper-slash {
-  position: relative;
-}
-.paper-slash::after {
-  content: '';
-  position: absolute;
-  top: -4px;
-  right: -4px;
-  width: 40px;
-  height: 40px;
-  background: var(--red);
-  clip-path: polygon(100% 0, 100% 100%, 0 100%);
-  opacity: 0.8;
-}
-
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -274,5 +431,11 @@ img {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+  }
+
+  .paper-pinned.pin-visible {
+    animation: none;
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(var(--pin-rotate, 0deg));
   }
 }

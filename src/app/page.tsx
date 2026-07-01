@@ -1,77 +1,82 @@
 import Navbar from '@/components/Navbar';
 import MangaCover from '@/components/MangaCover';
-import ChapterNav from '@/components/ChapterNav';
 import MangaScene from '@/components/MangaScene';
-import QuoteDivider from '@/components/QuoteDivider';
 import ProjectChapterCard from '@/components/ProjectChapterCard';
 import StatSheet from '@/components/StatSheet';
 import ContactFinal from '@/components/ContactFinal';
 import Footer from '@/components/Footer';
-import Reveal from '@/components/Reveal';
+import PinPaper from '@/components/PinPaper';
 import { scenes, projects, skills, cvSummary } from '@/data/portfolio';
 
 export default function Home() {
   return (
-    <main className="relative min-h-screen bg-paper text-ink">
+    <main className="relative min-h-screen text-ink">
       <Navbar />
       <MangaCover />
 
-      <div className="relative">
-        <div className="sticky top-[72px] z-40 hidden md:block">
-          <ChapterNav />
-        </div>
-
-        <QuoteDivider text="I was reading systems before I knew their names." kicker="Page 01" />
-
-        {scenes.map((scene) => (
-          <MangaScene key={scene.id} scene={scene} />
+      <div className="relative z-10 mx-auto max-w-5xl space-y-16 px-4 pb-32 pt-16 md:space-y-24 md:px-8 md:pt-24">
+        {scenes.map((scene, i) => (
+          <PinPaper
+            key={scene.id}
+            rotate={i % 2 === 0 ? -1.5 : 1.2}
+            delay={i * 150}
+          >
+            <MangaScene scene={scene} />
+          </PinPaper>
         ))}
 
-        <QuoteDivider text="Systems that don't just work — they survive." kicker="Interlude" />
+        {projects.length > 0 && (
+          <div>
+            <PinPaper
+              rotate={-1}
+              delay={scenes.length * 150}
+              noPin
+            >
+              <div className="mb-6">
+                <span className="inline-block border-[3px] border-ink bg-ink px-3 py-1 font-body text-[0.5rem] font-black uppercase tracking-[0.2em] text-paper">
+                  PROJECT ARCHIVE
+                </span>
+                <h2 className="mt-2 font-display text-[clamp(2rem,6vw,4rem)] leading-[0.78] tracking-tight text-ink">
+                  PROJECTS
+                </h2>
+                <p className="mt-2 max-w-xl font-body text-sm font-bold leading-6 text-ink/60">
+                  {cvSummary}
+                </p>
+              </div>
 
-        <section id="projects" className="relative z-10 mx-auto max-w-page overflow-visible px-4 py-24 md:px-6">
-          <div className="mb-12">
-            <span className="torn-edge-sm inline-block border-[3px] border-ink bg-ink px-4 py-1.5 font-body text-[0.55rem] font-black uppercase tracking-[0.2em] text-paper">
-              PROJECT ARCHIVE
+              <div className="space-y-10 md:space-y-14">
+                {projects.map((project, i) => (
+                  <PinPaper
+                    key={project.number}
+                    rotate={i % 2 === 0 ? -2 : 1.8}
+                    delay={i * 200}
+                  >
+                    <ProjectChapterCard project={project} index={i} />
+                  </PinPaper>
+                ))}
+              </div>
+            </PinPaper>
+          </div>
+        )}
+
+        <PinPaper rotate={0.8} delay={400}>
+          <div className="mb-4 text-center">
+            <span className="inline-block border-[3px] border-ink bg-ink px-3 py-1 font-body text-[0.5rem] font-black uppercase tracking-[0.2em] text-paper">
+              ABILITY PROFILE
             </span>
-            <h2 className="paper-texture relative -ml-1 mt-2 inline-block -rotate-1 border-[6px] border-ink px-4 py-1 font-display text-[clamp(3rem,8vw,6rem)] leading-[0.78] tracking-tight text-ink shadow-manga">
-              PROJECTS
-              <span className="absolute -top-2 -right-2 h-5 w-5 bg-red" style={{ clipPath: 'polygon(100% 0, 0 0, 100% 100%)' }} />
+            <h2 className="mt-2 font-display text-[clamp(2rem,6vw,4rem)] leading-[0.78] tracking-tight text-ink">
+              STATS
             </h2>
-            <p className="mt-3 max-w-xl font-body text-sm font-bold leading-6 text-ink/60">
-              {cvSummary}
-            </p>
           </div>
+          <StatSheet skills={skills} />
+        </PinPaper>
 
-          <div className="space-y-10 md:space-y-14">
-            {projects.map((project, i) => (
-              <ProjectChapterCard key={project.number} project={project} index={i} />
-            ))}
-          </div>
-        </section>
-
-        <QuoteDivider text="Evalutation complete. Ready for deployment." kicker="STATUS REPORT" />
-
-        <section id="stats" className="relative z-10 mx-auto max-w-page px-4 py-24 md:px-6">
-          <Reveal>
-            <div className="mb-12 text-center">
-              <span className="border-[3px] border-ink bg-ink px-4 py-1.5 font-body text-[0.55rem] font-black uppercase tracking-[0.2em] text-paper">
-                ABILITY PROFILE
-              </span>
-              <h2 className="mt-3 font-display text-[clamp(3rem,8vw,6rem)] leading-[0.78] tracking-tight text-ink">
-                STATS
-              </h2>
-            </div>
-          </Reveal>
-
-          <Reveal direction="up">
-            <StatSheet skills={skills} />
-          </Reveal>
-        </section>
-
-        <ContactFinal />
-        <Footer />
+        <PinPaper rotate={-0.9} delay={500}>
+          <ContactFinal />
+        </PinPaper>
       </div>
+
+      <Footer />
     </main>
   );
 }
