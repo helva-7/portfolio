@@ -37,6 +37,7 @@ export interface Project {
 export interface Skill {
   label: string;
   value: number;
+  glitch?: boolean;
 }
 
 export interface NavLink {
@@ -147,7 +148,7 @@ export const skills: Skill[] = [
   { label: 'Backend', value: 86 },
   { label: 'Security', value: 88 },
   { label: 'Execution', value: 91 },
-  { label: 'Resilience', value: 99 },
+  { label: 'Resilience', value: 99, glitch: true },
 ];
 
 export const navLinks: NavLink[] = [
