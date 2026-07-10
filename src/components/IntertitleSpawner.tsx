@@ -16,6 +16,10 @@ export default function IntertitleSpawner() {
   const pageMap = useMemo(() => new Map(deconstructionPages.map((page) => [page.id, page])), []);
 
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
+
     const triggerElements = Array.from(document.querySelectorAll<HTMLElement>('[data-intertitle-trigger]'));
 
     if (!triggerElements.length) {
@@ -62,11 +66,12 @@ export default function IntertitleSpawner() {
 
         const progress = (viewportHeight - (trigger.top - scrollY)) / (viewportHeight + trigger.height);
 
-        if (progress <= 0 || progress >= 1) {
+        if (progress <= 0.14 || progress >= 0.86) {
           return;
         }
 
-        const strength = 1 - Math.min(Math.abs(progress - 0.5) / 0.5, 1);
+        const safeProgress = (progress - 0.14) / 0.72;
+        const strength = 1 - Math.min(Math.abs(safeProgress - 0.5) / 0.5, 1);
 
         if (!nextActive || strength > nextActive.strength) {
           nextActive = { id: trigger.id, progress, strength };

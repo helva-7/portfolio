@@ -28,7 +28,7 @@ export default function Home() {
 
         <div className="whiteboard-section whiteboard-section--scenes mx-auto max-w-page px-4 pb-8 md:px-6 lg:pl-12">
           <div className="space-y-12 md:space-y-16">
-            <div className="board-note" data-board-note>
+            <div className="board-note" data-board-note data-board-variant="origin">
               <MangaScene scene={scenes[0]} />
             </div>
           </div>
@@ -38,7 +38,7 @@ export default function Home() {
 
         <div className="whiteboard-section whiteboard-section--scenes mx-auto max-w-page px-4 pb-8 md:px-6 lg:pl-12">
           <div className="space-y-12 md:space-y-16">
-            <div className="board-note" data-board-note>
+            <div className="board-note" data-board-note data-board-variant="proof">
               <MangaScene scene={scenes[1]} />
             </div>
           </div>
@@ -48,7 +48,7 @@ export default function Home() {
 
         <div className="whiteboard-section whiteboard-section--scenes mx-auto max-w-page px-4 pb-8 md:px-6 lg:pl-12">
           <div className="space-y-12 md:space-y-16">
-            <div className="board-note" data-board-note>
+            <div className="board-note" data-board-note data-board-variant="incident">
               <MangaScene scene={scenes[2]} />
             </div>
           </div>
@@ -58,7 +58,7 @@ export default function Home() {
 
         <div className="whiteboard-section whiteboard-section--scenes mx-auto max-w-page px-4 pb-8 md:px-6 lg:pl-12">
           <div className="space-y-12 md:space-y-16">
-            <div className="board-note" data-board-note>
+            <div className="board-note" data-board-note data-board-variant="method">
               <MangaScene scene={scenes[3]} />
             </div>
           </div>
@@ -73,7 +73,7 @@ export default function Home() {
         <QuoteDivider {...deconstructionPages[5]} />
 
         <section id="stats" className="whiteboard-section relative z-10 mx-auto max-w-page px-4 py-24 md:px-6 lg:pl-12">
-            <div className="board-note" data-board-note>
+            <div className="board-note" data-board-note data-board-variant="stats">
               <div className="mb-12 text-center stats-heading">
                 <span className="border-[3px] border-ink bg-ink px-4 py-1.5 font-body text-[0.55rem] font-black uppercase tracking-[0.2em] text-paper">
                   ABILITY PROFILE
@@ -89,7 +89,7 @@ export default function Home() {
         <QuoteDivider {...deconstructionPages[6]} />
 
         <section className="whiteboard-section mx-auto max-w-page px-4 py-24 md:px-6 lg:pl-12">
-          <div className="board-note" data-board-note>
+          <div className="board-note" data-board-note data-board-variant="contact">
             <ContactFinal />
           </div>
         </section>

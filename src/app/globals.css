@@ -3,14 +3,16 @@
 @tailwind utilities;
 
 :root {
-  --ink: #1d2733;
-  --paper: #eef2f4;
-  --paper-dark: #bac4cc;
-  --red: #8e2747;
-  --yellow: #e2a33a;
-  --muted-blue: #3a8d96;
-  --board: #f8f8f5;
-  --graphite: #5b6672;
+  --ink: #171a24;
+  --paper: #f4f0e7;
+  --paper-dark: #d8d0c3;
+  --red: #bb1744;
+  --yellow: #f0ae2b;
+  --muted-blue: #236f88;
+  --board: #fbfaf4;
+  --graphite: #4f5364;
+  --acid: #c7d63b;
+  --violet: #6a467a;
 }
 
 *,
@@ -42,9 +44,10 @@ body::before {
     linear-gradient(90deg, rgba(17, 17, 17, 0.035) 1px, transparent 1px),
     radial-gradient(circle at 20% 24%, rgba(17, 17, 17, 0.06) 0 1px, transparent 1px),
     radial-gradient(circle at 72% 12%, rgba(17, 17, 17, 0.04) 0 1px, transparent 1px),
-    radial-gradient(circle at 42% 68%, rgba(226, 59, 46, 0.025) 0 1px, transparent 1px),
-    linear-gradient(180deg, #f7f8f8 0%, #eef2f4 100%);
-  background-size: 42px 42px, 42px 42px, 26px 26px, 30px 30px, 18px 18px, 100% 100%;
+    radial-gradient(circle at 42% 68%, rgba(187, 23, 68, 0.04) 0 1px, transparent 1px),
+    linear-gradient(118deg, transparent 0 56%, rgba(187, 23, 68, 0.055) 56% 57%, transparent 57% 100%),
+    linear-gradient(180deg, #fbfaf4 0%, #efeee8 100%);
+  background-size: 42px 42px, 42px 42px, 26px 26px, 30px 30px, 18px 18px, 100% 100%, 100% 100%;
   opacity: 0.92;
 }
 
@@ -2312,7 +2315,7 @@ video {
 /* Spawned intertitles */
 
 .intertitle-trigger {
-  min-height: 100svh;
+  min-height: 122svh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2320,11 +2323,11 @@ video {
 }
 
 .intertitle-trigger--tall {
-  min-height: 128svh;
+  min-height: 156svh;
 }
 
 .intertitle-trigger--short {
-  min-height: 108svh;
+  min-height: 132svh;
 }
 
 .intertitle-trigger__track {
@@ -2343,7 +2346,8 @@ video {
   padding: 0.4rem 0.7rem;
   background: rgba(248, 248, 245, 0.82);
   border-left: 4px solid rgba(29, 39, 51, 0.28);
-  margin-top: 58svh;
+  margin-top: 34svh;
+  transform: rotate(-1deg) skewX(-8deg);
 }
 
 .intertitle-trigger__kicker,
@@ -2375,7 +2379,7 @@ video {
   position: absolute;
   inset: 0;
   overflow: hidden;
-  transition: opacity 120ms linear;
+  transition: opacity 160ms linear;
 }
 
 .intertitle-spawn__stage--interstitial-origin { --spawn-accent: #d9a6b3; }
@@ -2401,17 +2405,19 @@ video {
 
 .intertitle-spawn__veil {
   background:
-    linear-gradient(180deg, rgba(10, 13, 18, 0.16) 0%, rgba(10, 13, 18, 0.34) 100%),
+    linear-gradient(180deg, rgba(10, 13, 18, 0.22) 0%, rgba(10, 13, 18, 0.46) 100%),
     radial-gradient(circle at 16% 22%, color-mix(in srgb, var(--spawn-accent) 38%, transparent), transparent 28%),
-    linear-gradient(115deg, rgba(248, 248, 245, 0.08) 0 42%, transparent 42% 100%);
+    linear-gradient(115deg, rgba(248, 248, 245, 0.08) 0 38%, transparent 38% 100%),
+    linear-gradient(102deg, transparent 0 48%, color-mix(in srgb, var(--spawn-accent) 46%, transparent) 48% 49.2%, transparent 49.2% 100%);
 }
 
 .intertitle-spawn__grid {
   background:
     linear-gradient(rgba(248, 248, 245, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(248, 248, 245, 0.08) 1px, transparent 1px);
-  background-size: 48px 48px;
-  opacity: 0.36;
+    linear-gradient(90deg, rgba(248, 248, 245, 0.08) 1px, transparent 1px),
+    repeating-linear-gradient(108deg, transparent 0 5.5rem, rgba(248, 248, 245, 0.08) 5.5rem 5.7rem, transparent 5.7rem 8.8rem);
+  background-size: 48px 48px, 48px 48px, 100% 100%;
+  opacity: 0.42;
 }
 
 .intertitle-spawn__word {
@@ -2424,7 +2430,8 @@ video {
   line-height: 0.74;
   letter-spacing: -0.08em;
   text-transform: uppercase;
-  color: rgba(248, 248, 245, 0.12);
+  -webkit-text-stroke: 1px rgba(248, 248, 245, 0.22);
+  color: rgba(248, 248, 245, 0.08);
   transition: transform 120ms linear;
 }
 
@@ -2435,9 +2442,22 @@ video {
   bottom: clamp(1rem, 5vh, 4rem);
   z-index: 2;
   max-width: 48rem;
-  border-left: 6px solid var(--spawn-accent);
+  border-left: 8px solid var(--spawn-accent);
   padding: 1rem 1.25rem 0.25rem;
+  background: linear-gradient(90deg, rgba(10, 13, 18, 0.42), transparent 82%);
+  box-shadow: -1rem 0 0 rgba(248, 248, 245, 0.08);
   transition: transform 120ms linear;
+}
+
+.intertitle-spawn__frame::before {
+  content: '';
+  position: absolute;
+  left: -1.05rem;
+  top: -0.75rem;
+  width: 5.5rem;
+  height: 0.35rem;
+  background: var(--spawn-accent);
+  transform: skewX(-24deg);
 }
 
 .intertitle-spawn__kicker,
@@ -2526,23 +2546,137 @@ video {
   color: rgba(29, 39, 51, 0.5);
 }
 
+/* Bizarre case-file polish: one-shot section signatures */
+
+@keyframes slash-scan {
+  0% { transform: translateX(-115%) skewX(-18deg); opacity: 0; }
+  16% { opacity: 0.9; }
+  100% { transform: translateX(125%) skewX(-18deg); opacity: 0; }
+}
+
+@keyframes archive-card-pop {
+  0% { opacity: 0; transform: translateY(28px) rotate(var(--card-tilt, -1deg)); }
+  100% { opacity: 1; transform: translateY(0) rotate(var(--card-rest, 0deg)); }
+}
+
+@keyframes stats-crosshair {
+  0% { transform: scaleX(0); opacity: 0; }
+  24% { opacity: 0.55; }
+  100% { transform: scaleX(1); opacity: 0; }
+}
+
+.board-note::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  z-index: 8;
+  pointer-events: none;
+  background: linear-gradient(105deg, transparent 0 42%, rgba(255, 255, 255, 0.86) 42% 44%, color-mix(in srgb, var(--red) 55%, transparent) 44% 45%, transparent 45% 100%);
+  opacity: 0;
+}
+
+.board-note.is-board-visible::after {
+  animation: slash-scan 720ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.board-note[data-board-variant='incident']::after {
+  background: repeating-linear-gradient(90deg, transparent 0 18px, rgba(187, 23, 68, 0.5) 18px 22px, transparent 22px 38px);
+  mix-blend-mode: multiply;
+}
+
+.board-note[data-board-variant='origin'] .scene-bg-word { color: rgba(187, 23, 68, 0.075); }
+.board-note[data-board-variant='proof'] .scene-bg-word { color: rgba(240, 174, 43, 0.12); }
+.board-note[data-board-variant='incident'] .scene-bg-word { color: rgba(23, 26, 36, 0.09); }
+.board-note[data-board-variant='method'] .scene-bg-word { color: rgba(35, 111, 136, 0.105); }
+
+.scene-sheet::before,
+.scene-sheet::after {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+}
+
+.scene-sheet::before {
+  left: clamp(-1rem, -2vw, -0.25rem);
+  top: 12%;
+  width: 0.7rem;
+  height: 46%;
+  background: var(--red);
+  clip-path: polygon(0 0, 100% 8%, 72% 100%, 0 92%);
+}
+
+.scene-sheet::after {
+  right: -0.35rem;
+  bottom: 1.25rem;
+  width: min(18rem, 36vw);
+  height: 1.1rem;
+  background: repeating-linear-gradient(90deg, var(--ink) 0 1rem, transparent 1rem 1.45rem);
+  opacity: 0.12;
+  transform: skewX(-24deg);
+}
+
+.board-note[data-board-variant='archive'].is-board-visible .project-file {
+  animation: archive-card-pop 620ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.board-note[data-board-variant='archive'].is-board-visible .project-file:nth-child(2) { animation-delay: 90ms; }
+.board-note[data-board-variant='archive'].is-board-visible .project-file:nth-child(3) { animation-delay: 180ms; }
+.board-note[data-board-variant='archive'].is-board-visible .project-file:nth-child(4) { animation-delay: 270ms; }
+
+.project-file--left { --card-tilt: -1.8deg; --card-rest: -0.7deg; }
+.project-file--right { --card-tilt: 1.6deg; --card-rest: 0.7deg; }
+
+.board-note[data-board-variant='stats']::before {
+  content: '';
+  position: absolute;
+  left: -1.25rem;
+  right: -1.25rem;
+  top: 50%;
+  height: 2px;
+  z-index: 7;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, var(--red), var(--acid), transparent);
+  transform-origin: left center;
+  opacity: 0;
+}
+
+.board-note[data-board-variant='stats'].is-board-visible::before {
+  animation: stats-crosshair 680ms ease-out both 120ms;
+}
+
+.contact-finale__quote-plane {
+  overflow: hidden;
+}
+
+.contact-finale__quote-plane::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(90deg, transparent 0 22px, rgba(255,255,255,0.36) 22px 24px, transparent 24px 42px);
+  opacity: 0;
+}
+
+.board-note[data-board-variant='contact'].is-board-visible .contact-finale__quote-plane::after {
+  animation: slash-scan 820ms ease-out both 160ms;
+}
+
 @media (max-width: 767px) {
   .intertitle-trigger {
-    min-height: 92svh;
+    min-height: 112svh;
   }
 
   .intertitle-trigger--tall {
-    min-height: 108svh;
+    min-height: 128svh;
   }
 
   .intertitle-trigger--short {
-    min-height: 90svh;
+    min-height: 106svh;
   }
 
   .intertitle-trigger__label {
     gap: 0.5rem;
     padding: 0.32rem 0.55rem;
-    margin-top: 54svh;
+    margin-top: 26svh;
   }
 
   .intertitle-trigger__kicker,

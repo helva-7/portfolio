@@ -8,7 +8,7 @@ interface ProjectsArchiveProps {
 
 export default function ProjectsArchive({ projects, summary }: ProjectsArchiveProps) {
   return (
-    <article className="paper-archive board-note board-note--wide" data-board-note>
+    <article className="paper-archive board-note board-note--wide" data-board-note data-board-variant="archive">
       <span className="paper-card__pin" aria-hidden />
 
       <div className="paper-card__shell paper-archive__shell">
