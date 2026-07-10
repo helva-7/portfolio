@@ -8,19 +8,40 @@ interface MangaSceneProps {
 }
 
 export default function MangaScene({ scene }: MangaSceneProps) {
+  const sceneSignals: Record<string, { oddity: string; note: string }> = {
+    origin: {
+      oddity: 'ODDITY / ORIGIN',
+      note: '[REDACTED] curiosity became systems thinking before vocabulary caught up.',
+    },
+    'first-builds': {
+      oddity: 'ODDITY / PROOF',
+      note: '[REDACTED] first browser obedience triggered repeat-build behavior.',
+    },
+    trial: {
+      oddity: 'ODDITY / INCIDENT',
+      note: '[REDACTED] failure was severe but not terminal. protocol continued.',
+    },
+    craft: {
+      oddity: 'ODDITY / METHOD',
+      note: '[REDACTED] repeatability replaced luck. systems stabilized under pressure.',
+    },
+  };
+
+  const signal = sceneSignals[scene.id];
+
   const content = (
     <section
       id={scene.id}
-      className="relative z-10 mx-auto grid min-h-screen max-w-page items-center gap-8 overflow-hidden px-4 py-24 md:px-6 lg:grid-cols-[1fr_0.9fr]"
+      className="scene-sheet relative z-10 grid items-center gap-8 overflow-visible p-6 md:p-8 lg:grid-cols-[1fr_0.9fr]"
     >
-      <span className="scene-bg-word right-4 top-8 -z-10 rotate-3 animate-drift-slow lg:right-0">
+      <span className="scene-bg-word right-0 top-0 -z-10 rotate-3 animate-drift-slow">
         {scene.backgroundWord}
       </span>
 
       {scene.reverse ? (
         <>
           <Reveal direction="right" className="lg:order-2">
-            <div className="relative">
+            <div className="scene-sheet__media relative">
               <ImagePanel
                 src={scene.image}
                 label={scene.imageLabel}
@@ -36,19 +57,21 @@ export default function MangaScene({ scene }: MangaSceneProps) {
             </div>
           </Reveal>
           <Reveal direction="left" className="lg:order-1">
-            <div className="max-w-xl">
-              <span className="mb-3 inline-block border-[3px] border-ink bg-ink px-3 py-1 font-body text-[0.55rem] font-black uppercase tracking-[0.2em] text-paper">
+            <div className="scene-sheet__copy max-w-xl">
+              <p className="section-oddity">{signal.oddity}</p>
+              <span className="scene-sheet__kicker mb-3 inline-block border-[3px] border-ink bg-ink px-3 py-1 font-body text-[0.55rem] font-black uppercase tracking-[0.2em] text-paper">
                 CHAPTER {scene.chapterLabel}
               </span>
-              <h2 className="mt-4 font-display text-[clamp(2.6rem,7vw,5.5rem)] leading-[0.82] tracking-tight text-ink">
+              <h2 className="scene-sheet__title mt-4 font-display text-[clamp(2.6rem,7vw,5.5rem)] leading-[0.82] tracking-tight text-ink">
                 {scene.title}
               </h2>
-              <div className="mt-6">
+              <div className="scene-sheet__quote mt-6">
                 <QuotePanel text={scene.quote} />
               </div>
-              <p className="mt-6 border-[4px] border-ink bg-paper px-5 py-4 font-body text-base font-bold leading-7 text-ink/85 shadow-manga">
+              <p className="scene-sheet__body mt-6 border-[4px] border-ink bg-paper/90 px-5 py-4 font-body text-base font-bold leading-7 text-ink/85 shadow-manga">
                 {scene.body}
               </p>
+              <p className="redacted-note mt-4">{signal.note}</p>
               {scene.subQuote && (
                 <div className="mt-4">
                   <QuotePanel text={scene.subQuote} dark />
@@ -60,28 +83,30 @@ export default function MangaScene({ scene }: MangaSceneProps) {
       ) : (
         <>
           <Reveal direction="left">
-            <div className="max-w-xl">
-              <span className="mb-3 inline-block border-[3px] border-ink bg-ink px-3 py-1 font-body text-[0.55rem] font-black uppercase tracking-[0.2em] text-paper">
-                CHAPTER {scene.chapterLabel}
-              </span>
-              <h2 className="mt-4 font-display text-[clamp(2.6rem,7vw,5.5rem)] leading-[0.82] tracking-tight text-ink">
-                {scene.title}
-              </h2>
-              <div className="mt-6">
-                <QuotePanel text={scene.quote} />
-              </div>
-              <p className="mt-6 border-[4px] border-ink bg-paper px-5 py-4 font-body text-base font-bold leading-7 text-ink/85 shadow-manga">
-                {scene.body}
-              </p>
-              {scene.subQuote && (
-                <div className="mt-4">
-                  <QuotePanel text={scene.subQuote} dark />
+             <div className="scene-sheet__copy max-w-xl">
+               <p className="section-oddity">{signal.oddity}</p>
+               <span className="scene-sheet__kicker mb-3 inline-block border-[3px] border-ink bg-ink px-3 py-1 font-body text-[0.55rem] font-black uppercase tracking-[0.2em] text-paper">
+                 CHAPTER {scene.chapterLabel}
+               </span>
+               <h2 className="scene-sheet__title mt-4 font-display text-[clamp(2.6rem,7vw,5.5rem)] leading-[0.82] tracking-tight text-ink">
+                 {scene.title}
+               </h2>
+               <div className="scene-sheet__quote mt-6">
+                 <QuotePanel text={scene.quote} />
+               </div>
+               <p className="scene-sheet__body mt-6 border-[4px] border-ink bg-paper/90 px-5 py-4 font-body text-base font-bold leading-7 text-ink/85 shadow-manga">
+                 {scene.body}
+               </p>
+               <p className="redacted-note mt-4">{signal.note}</p>
+               {scene.subQuote && (
+                 <div className="mt-4">
+                   <QuotePanel text={scene.subQuote} dark />
                 </div>
               )}
             </div>
           </Reveal>
           <Reveal direction="right">
-            <div className="relative">
+            <div className="scene-sheet__media relative">
               <ImagePanel
                 src={scene.image}
                 label={scene.imageLabel}

@@ -40,6 +40,7 @@ export default function StatSheet({ skills }: StatSheetProps) {
       <div className="-rotate-1 border-[8px] border-ink bg-paper p-5 shadow-manga md:p-8">
         <div className="mb-6 flex items-center justify-between border-b-4 border-ink pb-4">
           <div>
+            <p className="section-oddity mb-3">ODDITY / MEASURE</p>
             <span className="border-[3px] border-ink bg-ink px-3 py-1 font-body text-[0.55rem] font-black uppercase tracking-[0.2em] text-paper">
               CHARACTER PROFILE
             </span>
@@ -125,6 +126,7 @@ export default function StatSheet({ skills }: StatSheetProps) {
           <p className="font-body text-[0.55rem] font-black uppercase tracking-[0.2em] text-ink/50">
             Evaluation based on project portfolio and engineering experience
           </p>
+          <p className="redacted-note mt-4 text-left md:text-center">[REDACTED] numbers are partial. pressure behavior remains the real benchmark.</p>
         </div>
       </div>
     </div>
