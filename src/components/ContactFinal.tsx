@@ -49,6 +49,12 @@ export default function ContactFinal() {
           </a>
         </div>
 
+        <div className="contract-seal" aria-hidden>
+          <span>契約</span>
+          <strong>NEXT ARC</strong>
+          <em>ACCEPTED</em>
+        </div>
+
         <div className="contact-finale__foot mt-16 border-t-4 border-ink/20 pt-8">
           <p className="font-body text-[0.5rem] font-black uppercase tracking-[0.25em] text-ink/40">
             One more chapter always follows.

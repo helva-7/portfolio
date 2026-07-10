@@ -8,22 +8,30 @@ interface MangaSceneProps {
 }
 
 export default function MangaScene({ scene }: MangaSceneProps) {
-  const sceneSignals: Record<string, { oddity: string; note: string }> = {
+  const sceneSignals: Record<string, { oddity: string; note: string; term: string; definition: string }> = {
     origin: {
       oddity: 'ODDITY / ORIGIN',
       note: '[REDACTED] curiosity became systems thinking before vocabulary caught up.',
+      term: 'origin',
+      definition: 'The first pattern, noticed before it had a name.',
     },
     'first-builds': {
       oddity: 'ODDITY / PROOF',
       note: '[REDACTED] first browser obedience triggered repeat-build behavior.',
+      term: 'proof',
+      definition: 'A small working thing that makes the next thing unavoidable.',
     },
     trial: {
       oddity: 'ODDITY / INCIDENT',
       note: '[REDACTED] failure was severe but not terminal. protocol continued.',
+      term: 'incident',
+      definition: 'A break that changes the system without ending it.',
     },
     craft: {
       oddity: 'ODDITY / METHOD',
       note: '[REDACTED] repeatability replaced luck. systems stabilized under pressure.',
+      term: 'method',
+      definition: 'Luck rewritten until it can be repeated under pressure.',
     },
   };
 
@@ -34,6 +42,13 @@ export default function MangaScene({ scene }: MangaSceneProps) {
       id={scene.id}
       className="scene-sheet relative z-10 grid items-center gap-8 overflow-visible p-6 md:p-8 lg:grid-cols-[1fr_0.9fr]"
     >
+      <aside className="dictionary-card" aria-label={`${signal.term} definition`}>
+        <span className="dictionary-card__index">怪異辞典 / {scene.chapterLabel}</span>
+        <strong className="dictionary-card__term">{signal.term}</strong>
+        <span className="dictionary-card__rule" />
+        <p>{signal.definition}</p>
+      </aside>
+
       <span className="scene-bg-word right-0 top-0 -z-10 rotate-3 animate-drift-slow">
         {scene.backgroundWord}
       </span>

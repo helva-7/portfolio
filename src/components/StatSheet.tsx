@@ -38,6 +38,11 @@ export default function StatSheet({ skills }: StatSheetProps) {
   return (
     <div ref={ref} className="mx-auto max-w-2xl overflow-visible">
       <div className="-rotate-1 border-[8px] border-ink bg-paper p-5 shadow-manga md:p-8">
+        <div className="result-screen__banner" aria-hidden>
+          <span>RESULT</span>
+          <strong>ARC CLEARED</strong>
+          <span>EXP + SYSTEM SENSE</span>
+        </div>
         <div className="mb-6 flex items-center justify-between border-b-4 border-ink pb-4">
           <div>
             <p className="section-oddity mb-3">ODDITY / MEASURE</p>
@@ -93,7 +98,7 @@ export default function StatSheet({ skills }: StatSheetProps) {
                 </div>
               </div>
             ) : (
-              <div key={skill.label} className="grid grid-cols-[1fr_1.5fr_auto] items-center gap-3 md:gap-4">
+              <div key={skill.label} className="stat-row grid grid-cols-[1fr_1.5fr_auto] items-center gap-3 md:gap-4" data-boost={`+${Math.max(1, Math.round(skill.value / 12))}`}>
                 <span className="font-body text-xs font-black uppercase tracking-[0.12em] text-ink md:text-sm">
                   {skill.label}
                 </span>
@@ -127,6 +132,10 @@ export default function StatSheet({ skills }: StatSheetProps) {
             Evaluation based on project portfolio and engineering experience
           </p>
           <p className="redacted-note mt-4 text-left md:text-center">[REDACTED] numbers are partial. pressure behavior remains the real benchmark.</p>
+          <div className="result-screen__rank" aria-label="Result rank: S">
+            <span>RANK</span>
+            <strong>S</strong>
+          </div>
         </div>
       </div>
     </div>

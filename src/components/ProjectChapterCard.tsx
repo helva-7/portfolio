@@ -12,9 +12,15 @@ interface ProjectChapterCardProps {
 export default function ProjectChapterCard({ project, index }: ProjectChapterCardProps) {
   const [expanded, setExpanded] = useState(false);
   const detailsId = useId();
+  const evidence = ['DEPLOYED', 'PATCHED', 'OBSERVED', 'SURVIVED'][index % 4];
 
   return (
-    <article className={`project-file ${index % 2 === 0 ? 'project-file--left' : 'project-file--right'}`}>
+    <article
+      className={`project-file ${index % 2 === 0 ? 'project-file--left' : 'project-file--right'}`}
+      data-evidence={evidence}
+      aria-label={`${project.name}. Evidence status: ${evidence.toLowerCase()}`}
+    >
+      <span className="project-file__evidence-stamp" aria-hidden>{evidence}</span>
       <div className="project-file__header">
         <span className="project-file__number">{project.number.padStart(2, '0')}</span>
         <div className="project-file__heading">
