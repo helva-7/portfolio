@@ -4530,6 +4530,36 @@ body {
   transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* Portrait source art still uses the archive's standard evidence frame. */
+.project-file--smart-checkup-iot .project-file__image,
+.project-file--ai-voice-agent .project-file__image {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+
+.project-file--smart-checkup-iot .project-file__image img,
+.project-file--ai-voice-agent .project-file__image img {
+  object-fit: cover;
+}
+
+.project-file--smart-checkup-iot .project-file__image img {
+  object-position: 50% 44%;
+}
+
+.project-file--ai-voice-agent .project-file__image img {
+  object-position: 50% 48%;
+}
+
+@media (min-width: 640px) {
+  .project-file--smart-checkup-iot .project-file__image img {
+    object-position: 50% 48%;
+  }
+
+  .project-file--ai-voice-agent .project-file__image img {
+    object-position: 50% 50%;
+  }
+}
+
 .image-panel__texture {
   opacity: 0.36;
 }
