@@ -193,8 +193,11 @@ export const scenes: Scene[] = [
     backgroundWord: 'CRAFT',
     quote: 'If it works once, understand it. If it matters, repeat it.',
     body: 'At university, I specialized in Cloud and DevOps — Docker, Azure, Linux, automation, security workflows. Systems that don\'t just work, they survive. Every internship across enterprise SOC, DevOps, financial systems, and tracking platforms built the same conviction: clean infrastructure is the foundation of everything.',
-    image: '/images/stats.png',
+    image: '/images/Pasted image (2).png',
     imageLabel: 'Craft',
+    imageAlt: 'Screenshot of a code editor beside a finished craft-themed visual design',
+    imagePanelClassName: 'aspect-[2/1] sm:aspect-[12/5]',
+    imageFit: 'contain',
   },
 ];
 
