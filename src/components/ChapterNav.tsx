@@ -11,7 +11,8 @@ const oddityCodes: Record<string, string> = {
   '#craft': 'IDX-04 / METHOD',
   '#projects': 'IDX-05 / ARCHIVE',
   '#stats': 'IDX-06 / RESULT',
-  '#contact': 'IDX-07 / CONTRACT',
+  '#site-build': 'IDX-07 / BUILD',
+  '#contact': 'IDX-08 / CONTRACT',
 };
 
 export default function ChapterNav() {

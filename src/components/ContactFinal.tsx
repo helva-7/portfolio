@@ -2,7 +2,7 @@ import { profile } from '@/data/portfolio';
 
 export default function ContactFinal() {
   return (
-    <section id="contact" className="contact-finale relative z-10 mx-auto max-w-page">
+    <section className="contact-finale relative z-10 mx-auto max-w-page">
       <div className="contact-finale__layout">
         <div className="contact-finale__heading">
           <p className="section-oddity">ODDITY / NEXT STATE</p>

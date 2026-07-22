@@ -34,6 +34,7 @@ export interface Scene {
 }
 
 export interface Project {
+  id: string;
   number: string;
   name: string;
   image: string;
@@ -41,6 +42,51 @@ export interface Project {
   stack: string[];
   quote: string;
   longDescription: string;
+  evidence: EvidenceItem[];
+  dossier: ProjectDossier;
+  architecture?: ProjectArchitectureDiagramData;
+  relatedSkillIds?: SkillId[];
+}
+
+export type SkillId =
+  | 'cloud-devops'
+  | 'security'
+  | 'automation'
+  | 'backend'
+  | 'data'
+  | 'python'
+  | 'problem-solving'
+  | 'execution'
+  | 'resilience';
+
+export interface ProjectDossier {
+  problem: string;
+  constraints: string[];
+  decisions: string[];
+  outcome: string;
+  nextImprovement: string;
+}
+
+export interface EvidenceItem {
+  label: string;
+  value: string;
+  href?: string;
+}
+
+export interface ProjectArchitectureDiagramData {
+  title: string;
+  summary: string;
+  nodes: Array<{
+    id: string;
+    label: string;
+    detail: string;
+    tone?: 'ink' | 'red' | 'blue' | 'yellow';
+  }>;
+  edges: Array<{
+    from: string;
+    to: string;
+    label?: string;
+  }>;
 }
 
 export interface DeconstructionPage {
@@ -65,9 +111,18 @@ export interface DeconstructionPage {
 }
 
 export interface Skill {
+  id: SkillId;
   label: string;
   value: number;
   glitch?: boolean;
+}
+
+export interface SkillLoadout {
+  id: SkillId;
+  label: string;
+  codename: string;
+  summary: string;
+  evidenceFocus: string;
 }
 
 export interface NavLink {
@@ -134,6 +189,7 @@ export const scenes: Scene[] = [
 
 export const projects: Project[] = [
   {
+    id: 'dokkaebi',
     number: '01',
     name: 'Dokkaebi',
     image: '/images/project-1.jpg',
@@ -141,8 +197,39 @@ export const projects: Project[] = [
     longDescription: 'A platform that orchestrates security scans across Docker containers with role-based access control, script approval workflows, job queue dispatch, isolated execution environments, and comprehensive reporting.',
     stack: ['React', 'FastAPI', 'Celery', 'PostgreSQL', 'Redis', 'Docker'],
     quote: 'Security Scan Orchestration',
+    relatedSkillIds: ['security', 'backend', 'automation', 'cloud-devops'],
+    evidence: [
+      { label: 'Control', value: 'RBAC + script approval' },
+      { label: 'Execution', value: 'Queued isolated scans' },
+      { label: 'Output', value: 'Report-first workflow' },
+    ],
+    dossier: {
+      problem: 'Security scripts are useful, but running them manually creates inconsistent results and risky execution habits.',
+      constraints: ['Scan jobs needed isolation from the app server.', 'Users needed different permissions for approving and running scripts.', 'Reports had to stay traceable after jobs completed.'],
+      decisions: ['Used FastAPI as the control plane and Celery for job dispatch.', 'Kept Redis as the queue layer so scan work could be retried and separated from requests.', 'Ran scans through Docker containers to make execution boundaries clearer.'],
+      outcome: 'The project became a repeatable scan pipeline instead of a loose collection of scripts.',
+      nextImprovement: 'Add stronger scan sandbox policies and signed script versions before treating it like a production security tool.',
+    },
+    architecture: {
+      title: 'Dokkaebi scan pipeline',
+      summary: 'A user-approved scan moves from the web app into a queue, runs in an isolated worker path, then returns a report.',
+      nodes: [
+        { id: 'ui', label: 'React UI', detail: 'Request + review', tone: 'yellow' },
+        { id: 'api', label: 'FastAPI', detail: 'RBAC control plane', tone: 'ink' },
+        { id: 'queue', label: 'Redis / Celery', detail: 'Dispatch jobs', tone: 'blue' },
+        { id: 'worker', label: 'Docker worker', detail: 'Isolated scan run', tone: 'red' },
+        { id: 'db', label: 'PostgreSQL', detail: 'Reports + audit trail', tone: 'ink' },
+      ],
+      edges: [
+        { from: 'ui', to: 'api', label: 'submit' },
+        { from: 'api', to: 'queue', label: 'approve' },
+        { from: 'queue', to: 'worker', label: 'run' },
+        { from: 'worker', to: 'db', label: 'store' },
+      ],
+    },
   },
   {
+    id: 'fraud-detection',
     number: '02',
     name: 'Real-Time Fraud Detection',
     image: '/images/project-2.jpg',
@@ -150,8 +237,39 @@ export const projects: Project[] = [
     longDescription: 'End-to-end fraud detection pipeline on Azure ML with a transaction simulator, REST inference endpoint, Blob Storage audit layer, Streamlit dashboard, and Power BI analytics.',
     stack: ['Azure ML', 'Python', 'Streamlit', 'Blob Storage', 'Power BI'],
     quote: 'Fraud Detection Pipeline',
+    relatedSkillIds: ['cloud-devops', 'automation', 'data', 'python'],
+    evidence: [
+      { label: 'Cloud path', value: 'Azure ML endpoint' },
+      { label: 'Audit', value: 'Blob-backed records' },
+      { label: 'Visibility', value: 'Dashboard + BI layer' },
+    ],
+    dossier: {
+      problem: 'Fraud signals are only useful if predictions, audit records, and analyst visibility stay connected.',
+      constraints: ['The inference path needed to be callable through a REST-like workflow.', 'Audit data had to be retained outside the dashboard.', 'The demo needed clear business-facing visibility, not only model output.'],
+      decisions: ['Used Azure ML for model serving to keep inference separate from presentation.', 'Stored transaction traces in Blob Storage so predictions could be reviewed later.', 'Split quick monitoring and reporting between Streamlit and Power BI.'],
+      outcome: 'The project showed the full path from simulated transaction to prediction, audit trail, and readable dashboard.',
+      nextImprovement: 'Add drift checks and alert thresholds so the pipeline can flag suspicious model behavior, not only suspicious transactions.',
+    },
+    architecture: {
+      title: 'Fraud inference and audit flow',
+      summary: 'Transactions pass through inference, are stored for audit, then become dashboard evidence.',
+      nodes: [
+        { id: 'sim', label: 'Simulator', detail: 'Transaction events', tone: 'yellow' },
+        { id: 'ml', label: 'Azure ML', detail: 'Fraud score endpoint', tone: 'blue' },
+        { id: 'blob', label: 'Blob Storage', detail: 'Prediction audit', tone: 'ink' },
+        { id: 'dash', label: 'Streamlit', detail: 'Live review', tone: 'red' },
+        { id: 'bi', label: 'Power BI', detail: 'Business view', tone: 'ink' },
+      ],
+      edges: [
+        { from: 'sim', to: 'ml', label: 'score' },
+        { from: 'ml', to: 'blob', label: 'log' },
+        { from: 'blob', to: 'dash', label: 'inspect' },
+        { from: 'blob', to: 'bi', label: 'report' },
+      ],
+    },
   },
   {
+    id: 'smart-checkup-iot',
     number: '03',
     name: 'Smart Check-Up IoT',
     image: '/images/project-3.jpg',
@@ -159,8 +277,22 @@ export const projects: Project[] = [
     longDescription: 'An RFID and PIN-based attendance and access control system with MariaDB audit logging and a Node-RED monitoring dashboard.',
     stack: ['Arduino', 'Node-RED', 'MariaDB', 'RFID'],
     quote: 'IoT Access Control',
+    relatedSkillIds: ['automation', 'backend'],
+    evidence: [
+      { label: 'Input', value: 'RFID + PIN' },
+      { label: 'Record', value: 'MariaDB event log' },
+      { label: 'Monitor', value: 'Node-RED dashboard' },
+    ],
+    dossier: {
+      problem: 'Access events needed to be captured reliably enough to review who entered and when.',
+      constraints: ['Hardware input could be noisy or repeated.', 'The storage layer had to keep a simple audit history.', 'The dashboard needed to make status visible without a heavy frontend.'],
+      decisions: ['Combined RFID with PIN checks to avoid relying on a single signal.', 'Logged events into MariaDB for straightforward querying and review.', 'Used Node-RED to build a fast operational dashboard around device events.'],
+      outcome: 'The system connected physical access input to a visible audit trail with a small, understandable stack.',
+      nextImprovement: 'Add clearer offline behavior so the device can queue events when the database is temporarily unavailable.',
+    },
   },
   {
+    id: 'ai-voice-agent',
     number: '04',
     name: 'AI Voice Agent',
     image: '/images/profile.jpg',
@@ -168,17 +300,75 @@ export const projects: Project[] = [
     longDescription: 'A voice automation assistant built in Python with speech recognition, command routing, system actions, and external API automation capabilities.',
     stack: ['Python', 'Speech Recognition', 'Automation APIs'],
     quote: 'Voice Automation',
+    relatedSkillIds: ['automation', 'python'],
+    evidence: [
+      { label: 'Input', value: 'Speech recognition' },
+      { label: 'Routing', value: 'Command parser' },
+      { label: 'Action', value: 'System/API tasks' },
+    ],
+    dossier: {
+      problem: 'Repeated desktop and API tasks were slow to trigger manually and useful as an automation experiment.',
+      constraints: ['Voice input can be ambiguous.', 'Commands needed guardrails so actions stayed predictable.', 'The system had to stay lightweight enough to run locally.'],
+      decisions: ['Kept command routing explicit instead of pretending every phrase should be understood.', 'Separated recognition from action handlers so new commands could be added cleanly.', 'Used Python libraries and APIs that matched the local automation goal.'],
+      outcome: 'The assistant became a practical experiment in turning spoken intent into controlled automation.',
+      nextImprovement: 'Add confirmation steps for destructive commands and a small command history for debugging.',
+    },
   },
 ];
 
 export const skills: Skill[] = [
-  { label: 'Cloud / DevOps', value: 92 },
-  { label: 'Automation', value: 90 },
-  { label: 'Problem Solving', value: 95 },
-  { label: 'Backend', value: 86 },
-  { label: 'Security', value: 88 },
-  { label: 'Execution', value: 91 },
-  { label: 'Resilience', value: 99, glitch: true },
+  { id: 'cloud-devops', label: 'Cloud / DevOps', value: 92 },
+  { id: 'automation', label: 'Automation', value: 90 },
+  { id: 'problem-solving', label: 'Problem Solving', value: 95 },
+  { id: 'backend', label: 'Backend', value: 86 },
+  { id: 'security', label: 'Security', value: 88 },
+  { id: 'execution', label: 'Execution', value: 91 },
+  { id: 'resilience', label: 'Resilience', value: 99, glitch: true },
+];
+
+export const skillLoadouts: SkillLoadout[] = [
+  {
+    id: 'cloud-devops',
+    label: 'Cloud / DevOps',
+    codename: 'DEPLOYMENT RITUAL',
+    summary: 'Cloud services, containers, queues, and operational paths that make systems repeatable.',
+    evidenceFocus: 'Look for Azure ML serving, Docker isolation, queue dispatch, and audit-friendly workflows.',
+  },
+  {
+    id: 'security',
+    label: 'Security',
+    codename: 'THREAT INDEX',
+    summary: 'Security work framed as controlled execution, permission boundaries, and traceable review.',
+    evidenceFocus: 'Dokkaebi carries the strongest proof: RBAC, approval flow, isolated scans, and reports.',
+  },
+  {
+    id: 'automation',
+    label: 'Automation',
+    codename: 'REPEAT ENGINE',
+    summary: 'Turning manual steps into routed, observable, and safer workflows.',
+    evidenceFocus: 'Evidence appears across queued scans, transaction simulation, device events, and voice commands.',
+  },
+  {
+    id: 'backend',
+    label: 'Backend',
+    codename: 'CONTROL PLANE',
+    summary: 'APIs, storage, command routing, and event records that keep the system understandable.',
+    evidenceFocus: 'FastAPI, PostgreSQL, MariaDB, and event logs show the backend decisions behind the interface.',
+  },
+  {
+    id: 'data',
+    label: 'Data',
+    codename: 'SIGNAL TRACE',
+    summary: 'Data movement from input to inference, audit, dashboard, and business-readable output.',
+    evidenceFocus: 'Fraud Detection is the clearest data proof: prediction, Blob audit, Streamlit review, Power BI reporting.',
+  },
+  {
+    id: 'python',
+    label: 'Python',
+    codename: 'SCRIPT FAMILIAR',
+    summary: 'Python used for inference glue, automation scripts, speech recognition, and local task routing.',
+    evidenceFocus: 'Fraud Detection and AI Voice Agent show Python as practical automation infrastructure.',
+  },
 ];
 
 export const navLinks: NavLink[] = [
@@ -188,6 +378,7 @@ export const navLinks: NavLink[] = [
   { label: 'Craft', href: '#craft' },
   { label: 'Projects', href: '#projects' },
   { label: 'Stats', href: '#stats' },
+  { label: 'Build', href: '#site-build' },
   { label: 'Evolve', href: '#contact' },
 ];
 

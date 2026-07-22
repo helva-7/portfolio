@@ -40,6 +40,7 @@ export default function MangaScene({ scene }: MangaSceneProps) {
   const content = (
     <section
       id={scene.id}
+      tabIndex={-1}
       className="scene-sheet relative z-10 grid items-center gap-8 overflow-visible p-6 md:p-8 lg:grid-cols-[1fr_0.9fr]"
     >
       <aside className="dictionary-card" aria-label={`${signal.term} definition`}>
@@ -49,7 +50,7 @@ export default function MangaScene({ scene }: MangaSceneProps) {
         <p>{signal.definition}</p>
       </aside>
 
-      <span className="scene-bg-word right-0 top-0 -z-10 rotate-3 animate-drift-slow">
+      <span className="scene-bg-word right-0 top-0 -z-10 rotate-3">
         {scene.backgroundWord}
       </span>
 

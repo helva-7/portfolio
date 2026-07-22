@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
-import { Bebas_Neue, Bangers, Inter } from 'next/font/google';
+import { Bebas_Neue, Bangers, IBM_Plex_Mono } from 'next/font/google';
 import './globals.css';
 
 const bebas = Bebas_Neue({
@@ -17,8 +17,9 @@ const bangers = Bangers({
   display: 'swap',
 });
 
-const inter = Inter({
+const plexMono = IBM_Plex_Mono({
   subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
   variable: '--font-body',
   display: 'swap',
 });
@@ -30,7 +31,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    <html lang="en" className={`${bebas.variable} ${bangers.variable} ${inter.variable}`}>
+    <html lang="en" className={`${bebas.variable} ${bangers.variable} ${plexMono.variable}`}>
       <body className="font-body">{children}</body>
     </html>
   );

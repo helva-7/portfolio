@@ -1,8 +1,6 @@
-'use client';
-
-import { useId, useState } from 'react';
 import type { Project } from '@/data/portfolio';
 import ImagePanel from './ImagePanel';
+import ProjectDossierPanel from './ProjectDossierPanel';
 
 interface ProjectChapterCardProps {
   project: Project;
@@ -10,14 +8,15 @@ interface ProjectChapterCardProps {
 }
 
 export default function ProjectChapterCard({ project, index }: ProjectChapterCardProps) {
-  const [expanded, setExpanded] = useState(false);
-  const detailsId = useId();
   const evidence = ['DEPLOYED', 'PATCHED', 'OBSERVED', 'SURVIVED'][index % 4];
+  const titleId = `project-${project.number}-title`;
 
   return (
     <article
-      className={`project-file ${index % 2 === 0 ? 'project-file--left' : 'project-file--right'}`}
+      id={`project-${project.id}`}
+      className={`project-file project-file--${project.id} ${index % 2 === 0 ? 'project-file--left' : 'project-file--right'}`}
       data-evidence={evidence}
+      data-project={project.id}
       aria-label={`${project.name}. Evidence status: ${evidence.toLowerCase()}`}
     >
       <span className="project-file__evidence-stamp" aria-hidden>{evidence}</span>
@@ -25,7 +24,7 @@ export default function ProjectChapterCard({ project, index }: ProjectChapterCar
         <span className="project-file__number">{project.number.padStart(2, '0')}</span>
         <div className="project-file__heading">
           <p className="project-file__case-label">CASE {project.number.padStart(2, '0')}</p>
-          <h3 id={`${detailsId}-title`} className="project-file__title">
+          <h3 id={titleId} className="project-file__title">
             {project.name}
           </h3>
           <p className="project-file__quote">{project.quote}</p>
@@ -34,7 +33,7 @@ export default function ProjectChapterCard({ project, index }: ProjectChapterCar
 
       <div className="project-file__body">
         <div className="project-file__media">
-          <ImagePanel src={project.image} label={`${project.name} visual`} className="aspect-[4/3] w-full" />
+          <ImagePanel src={project.image} label={`${project.name} visual`} className="project-file__image aspect-[4/3] w-full" />
         </div>
 
         <div className="project-file__content">
@@ -46,21 +45,16 @@ export default function ProjectChapterCard({ project, index }: ProjectChapterCar
               </span>
             ))}
           </div>
-          <button
-            type="button"
-            className="project-file__cta"
-            aria-expanded={expanded}
-            aria-controls={detailsId}
-            onClick={() => setExpanded((value) => !value)}
-          >
-            {expanded ? 'Close file' : 'Open file'}
-          </button>
         </div>
       </div>
 
-      <div id={detailsId} className={`project-file__details ${expanded ? 'project-file__details--open' : ''}`}>
-        <p className="project-file__long-copy">{project.longDescription}</p>
-      </div>
+      <details className="project-file__details">
+        <summary className="project-file__summary" aria-describedby={titleId}>
+          <span className="project-file__summary-open">Open case dossier</span>
+          <span className="project-file__summary-close">Close case dossier</span>
+        </summary>
+        <ProjectDossierPanel project={project} />
+      </details>
     </article>
   );
 }

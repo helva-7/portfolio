@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
 import { profile } from '@/data/portfolio';
+import { withBasePath } from '@/lib/base-path';
 export default function MangaCover() {
   const [imgError, setImgError] = useState(false);
 
@@ -76,10 +77,11 @@ export default function MangaCover() {
             </div>
             {!imgError ? (
               <Image
-                src="/images/me.png"
+                src={withBasePath('/images/me.png')}
                 alt="Fahd Elhaloui profile"
                 width={600}
                 height={800}
+                loading="eager"
                 className="cover-stage__portrait w-full object-cover"
                 onError={() => setImgError(true)}
               />

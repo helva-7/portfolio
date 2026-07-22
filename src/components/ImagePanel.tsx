@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import { withBasePath } from '@/lib/base-path';
 
 interface ImagePanelProps {
   src: string;
@@ -27,7 +28,7 @@ export default function ImagePanel({ src, label, className, broken }: ImagePanel
     >
       {!error ? (
         <Image
-          src={src}
+          src={withBasePath(src)}
           alt={label}
           width={800}
           height={600}
@@ -59,7 +60,7 @@ export default function ImagePanel({ src, label, className, broken }: ImagePanel
         {label}
       </figcaption>
       <div
-        className="pointer-events-none absolute inset-0 mix-blend-multiply"
+        className="image-panel__texture pointer-events-none absolute inset-0"
         style={{
           backgroundImage:
             'radial-gradient(circle at 30% 40%, rgba(17,17,17,0.08) 0 1px, transparent 1px), radial-gradient(circle at 70% 60%, rgba(17,17,17,0.05) 0 1px, transparent 1px)',

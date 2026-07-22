@@ -16,6 +16,10 @@ export default function Reveal({ children, className, delay = 0, direction = 'up
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setRevealed(true);
+      return;
+    }
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -31,17 +35,17 @@ export default function Reveal({ children, className, delay = 0, direction = 'up
 
   const dirClass =
     direction === 'up'
-      ? 'translate-y-12'
+      ? 'translate-y-6'
       : direction === 'left'
-        ? '-translate-x-16'
+        ? '-translate-x-6'
         : direction === 'right'
-          ? 'translate-x-16'
+          ? 'translate-x-6'
           : '';
 
   return (
     <div
       ref={ref}
-      className={`${className || ''} transition-all duration-700 ease-out will-change-transform ${
+      className={`${className || ''} transition-all duration-500 ease-out motion-reduce:transition-none ${
         revealed ? 'translate-x-0 translate-y-0 opacity-100' : `${dirClass} opacity-0`
       }`}
       style={{ transitionDelay: `${delay}ms` }}

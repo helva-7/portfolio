@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import type { Skill } from '@/data/portfolio';
 
 interface StatSheetProps {
@@ -30,6 +30,10 @@ export default function StatSheet({ skills }: StatSheetProps) {
 
   useEffect(() => {
     if (visible && !animated) {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        setAnimated(true);
+        return;
+      }
       const timer = setTimeout(() => setAnimated(true), 400);
       return () => clearTimeout(timer);
     }
@@ -61,41 +65,39 @@ export default function StatSheet({ skills }: StatSheetProps) {
         <div className="space-y-5">
           {skills.map((skill, i) =>
             skill.glitch ? (
-              <div key={skill.label} className="relative overflow-visible" style={{ zIndex: 30 }}>
-                <div className="flex items-center gap-3 md:gap-4">
-                  <span className="shrink-0 font-body text-xs font-black uppercase tracking-[0.12em] text-ink md:text-sm">
+              <div
+                key={skill.label}
+                className={`resilience-breakout ${animated ? 'is-animated' : ''}`}
+                style={{ '--break-delay': `${i * 120}ms` } as CSSProperties}
+              >
+                <div className="resilience-breakout__row">
+                  <span className="resilience-breakout__label">
                     {skill.label}
                   </span>
-                  <div className="relative flex-1 overflow-visible" style={{ height: 28 }}>
-                    <div className="absolute inset-0 border-[3px] border-ink bg-paper-dark" />
+                  <div
+                    className="resilience-breakout__meter"
+                    role="progressbar"
+                    aria-label={`${skill.label} score`}
+                    aria-valuemin={0}
+                    aria-valuemax={100}
+                    aria-valuenow={animated ? skill.value : 0}
+                  >
+                    <div className="resilience-breakout__meter-track" />
                     <div
-                      className="glitch-bar absolute top-0 left-0 h-full origin-left bg-ink"
+                      className="resilience-breakout__meter-fill"
                       style={{
-                        width: animated ? '100vw' : '0%',
-                        transition: 'width 1.5s cubic-bezier(0.16, 1, 0.3, 1)',
+                        width: animated ? `${skill.value}%` : '0%',
+                        transition: 'width 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
                         transitionDelay: `${i * 120}ms`,
                       }}
                     />
-                    <div
-                      className="pointer-events-none absolute inset-0"
-                      style={{
-                        backgroundImage:
-                          'radial-gradient(circle at 30% 50%, rgba(243,234,215,0.15) 0 1px, transparent 1px)',
-                        backgroundSize: '4px 4px',
-                      }}
-                    />
-                    <div
-                      className="pointer-events-none absolute inset-0 opacity-20"
-                      style={{
-                        backgroundImage:
-                          'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(226,59,46,0.15) 2px, rgba(226,59,46,0.15) 3px)',
-                      }}
-                    />
                   </div>
-                  <strong className="glitch-text shrink-0 font-display text-3xl leading-none text-red md:text-4xl">
-                    ???
+                  <strong className="resilience-breakout__score">
+                    {animated ? skill.value : 0}
                   </strong>
                 </div>
+                <span className="resilience-breakout__seal" aria-hidden>LIMIT / REJECTED</span>
+                <span className="resilience-breakout__shards" aria-hidden><i /><i /><i /></span>
               </div>
             ) : (
               <div key={skill.label} className="stat-row grid grid-cols-[1fr_1.5fr_auto] items-center gap-3 md:gap-4" data-boost={`+${Math.max(1, Math.round(skill.value / 12))}`}>

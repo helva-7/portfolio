@@ -49,34 +49,37 @@ export default function Navbar() {
         scrolled ? 'bg-ink/92' : 'bg-ink/76'
       }`}
     >
-      <nav className="mx-auto flex max-w-page items-center justify-between px-4 py-2 md:px-6">
+      <nav className="mx-auto flex max-w-page items-center justify-between gap-4 px-4 py-2 md:px-6" aria-label="Main navigation">
         <Link
           href="/"
           className="border border-paper/40 px-2.5 py-1 font-display text-sm tracking-[0.22em] text-paper"
         >
           FAHD / 01
         </Link>
-        <div className="hidden items-center gap-4 md:flex">
-          <span className="font-body text-[0.55rem] font-black uppercase tracking-[0.24em] text-paper/55">
-            Junior DevOps &amp; Cloud Security Engineer
-          </span>
-          <Link
-            href="#contact"
-            className="border border-paper/35 px-3 py-1.5 font-body text-[0.55rem] font-black uppercase tracking-[0.18em] text-paper transition hover:border-[#e2a33a] hover:bg-[#8e2747]"
-          >
-            Contact
-          </Link>
+        <div className="hidden items-center gap-1 lg:flex">
+          {navLinks.map((link, index) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={`px-2 py-2 font-body text-[0.52rem] font-bold uppercase tracking-[0.12em] text-paper/70 transition-colors hover:text-paper focus-visible:bg-paper focus-visible:text-ink ${
+                index === 4 ? 'ml-2 border-l border-paper/25 pl-4' : ''
+              }`}
+            >
+              {link.label}
+            </Link>
+          ))}
         </div>
         <button
           onClick={() => setMenuOpen((p) => !p)}
-          className="flex h-8 w-8 items-center justify-center border border-paper/30 text-paper md:hidden"
+          className="flex h-8 w-8 items-center justify-center border border-paper/30 text-paper lg:hidden"
           aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={menuOpen}
         >
           {menuOpen ? '✕' : '☰'}
         </button>
       </nav>
       {menuOpen && (
-        <div className="border-t border-paper/20 bg-ink md:hidden">
+        <div className="border-t border-paper/20 bg-ink lg:hidden">
           {navLinks.map((l) => (
             <Link
               key={l.href}
