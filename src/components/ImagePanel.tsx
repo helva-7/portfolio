@@ -7,11 +7,14 @@ import { withBasePath } from '@/lib/base-path';
 interface ImagePanelProps {
   src: string;
   label: string;
+  alt?: string;
   className?: string;
+  imageClassName?: string;
+  imageFit?: 'cover' | 'contain';
   broken?: boolean;
 }
 
-export default function ImagePanel({ src, label, className, broken }: ImagePanelProps) {
+export default function ImagePanel({ src, label, alt, className, imageClassName, imageFit = 'cover', broken }: ImagePanelProps) {
   const [error, setError] = useState(false);
 
   return (
@@ -29,10 +32,10 @@ export default function ImagePanel({ src, label, className, broken }: ImagePanel
       {!error ? (
         <Image
           src={withBasePath(src)}
-          alt={label}
+          alt={alt || label}
           width={800}
           height={600}
-          className="h-full w-full object-cover"
+          className={`h-full w-full ${imageFit === 'contain' ? 'bg-[#0d1117] object-contain' : 'object-cover'} ${imageClassName || ''}`}
           onError={() => setError(true)}
         />
       ) : null}

@@ -29,6 +29,10 @@ export interface Scene {
   body: string;
   image: string;
   imageLabel: string;
+  imageAlt?: string;
+  imageClassName?: string;
+  imagePanelClassName?: string;
+  imageFit?: 'cover' | 'contain';
   reverse?: boolean;
   broken?: boolean;
 }
@@ -150,8 +154,10 @@ export const scenes: Scene[] = [
     backgroundWord: 'ORIGIN',
     quote: 'I was reading systems before I knew their names.',
     body: 'Computers and video games introduced me to systems at 4 years old. Not as a career plan, just pure curiosity about how things work, what breaks them, and how to put them back together.',
-    image: '/images/origin.png',
+    image: '/images/persona1.png',
     imageLabel: 'Origin',
+    imageAlt: 'Illustrated student standing in a sunlit classroom',
+    imageClassName: 'object-[55%_50%] sm:object-[52%_50%]',
   },
   {
     id: 'first-builds',
@@ -160,8 +166,11 @@ export const scenes: Scene[] = [
     backgroundWord: 'FIRST BUILDS',
     quote: 'Small builds. First proof. Real fire.',
     body: 'At 15, I jumped into web development. Simple projects, fun experiments. Nothing corporate yet. Just building because it felt right. The first time I made a browser do what I wanted, I was hooked.',
-    image: '/images/profile.jpg',
+    image: '/images/Pasted image.png',
     imageLabel: 'First builds',
+    imageAlt: 'GitHub profile for helva-7 showing pinned software projects and contribution activity',
+    imagePanelClassName: 'aspect-[16/10] sm:aspect-video',
+    imageFit: 'contain',
   },
   {
     id: 'trial',
@@ -171,8 +180,10 @@ export const scenes: Scene[] = [
     quote: 'The path broke. The mission adapted.',
     subQuote: 'Whatever I do now I do it for that guy that used to be so mad it made him unkillable.',
     body: 'One year after BAC, I got lymphoma cancer. The same mindset I used in engineering also helped me through sickness: understand the problem, keep moving, adapt, and rebuild. Survival is not about avoiding the break — it is about becoming unkillable through it. After becoming cancer free, I joined International University of Rabat to sharpen my craft and become a stronger engineer.',
-    image: '/images/me.png',
+    image: '/images/victor.jpg',
     imageLabel: 'Survival',
+    imageAlt: 'Illustration of a stitched figure holding two small figures in green light',
+    imageClassName: 'object-[50%_42%] sm:object-[50%_46%]',
     broken: true,
   },
   {

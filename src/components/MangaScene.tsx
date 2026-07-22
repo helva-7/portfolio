@@ -61,7 +61,10 @@ export default function MangaScene({ scene }: MangaSceneProps) {
               <ImagePanel
                 src={scene.image}
                 label={scene.imageLabel}
-                className="aspect-[4/3] w-full"
+                alt={scene.imageAlt}
+                imageClassName={scene.imageClassName}
+                imageFit={scene.imageFit}
+                className={`w-full ${scene.imagePanelClassName || 'aspect-[4/3]'}`}
                 broken={scene.broken}
               />
               {scene.broken && (
@@ -126,7 +129,10 @@ export default function MangaScene({ scene }: MangaSceneProps) {
               <ImagePanel
                 src={scene.image}
                 label={scene.imageLabel}
-                className="aspect-[4/3] w-full"
+                alt={scene.imageAlt}
+                imageClassName={scene.imageClassName}
+                imageFit={scene.imageFit}
+                className={`w-full ${scene.imagePanelClassName || 'aspect-[4/3]'}`}
                 broken={scene.broken}
               />
               {scene.broken && (
