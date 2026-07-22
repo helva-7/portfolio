@@ -11,10 +11,11 @@ interface ImagePanelProps {
   className?: string;
   imageClassName?: string;
   imageFit?: 'cover' | 'contain';
+  mediaType?: 'image' | 'video';
   broken?: boolean;
 }
 
-export default function ImagePanel({ src, label, alt, className, imageClassName, imageFit = 'cover', broken }: ImagePanelProps) {
+export default function ImagePanel({ src, label, alt, className, imageClassName, imageFit = 'cover', mediaType = 'image', broken }: ImagePanelProps) {
   const [error, setError] = useState(false);
 
   return (
@@ -29,7 +30,20 @@ export default function ImagePanel({ src, label, alt, className, imageClassName,
           : undefined
       }
     >
-      {!error ? (
+      {!error && mediaType === 'video' ? (
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="metadata"
+          aria-label={alt || label}
+          className={`h-full w-full ${imageFit === 'contain' ? 'bg-[#0d1117] object-contain' : 'object-cover'} ${imageClassName || ''}`}
+          onError={() => setError(true)}
+        >
+          <source src={withBasePath(src)} type="video/mp4" />
+        </video>
+      ) : !error ? (
         <Image
           src={withBasePath(src)}
           alt={alt || label}

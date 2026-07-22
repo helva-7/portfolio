@@ -33,7 +33,15 @@ export default function ProjectChapterCard({ project, index }: ProjectChapterCar
 
       <div className="project-file__body">
         <div className="project-file__media">
-          <ImagePanel src={project.image} label={`${project.name} visual`} className="project-file__image aspect-[4/3] w-full" />
+          <ImagePanel
+            src={project.image}
+            label={`${project.name} visual`}
+            alt={project.imageAlt}
+            imageClassName={project.imageClassName}
+            imageFit={project.imageFit}
+            mediaType={project.mediaType}
+            className={`project-file__image w-full ${project.imagePanelClassName || 'aspect-[4/3]'}`}
+          />
         </div>
 
         <div className="project-file__content">

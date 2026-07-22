@@ -42,6 +42,11 @@ export interface Project {
   number: string;
   name: string;
   image: string;
+  imageAlt?: string;
+  imageClassName?: string;
+  imagePanelClassName?: string;
+  imageFit?: 'cover' | 'contain';
+  mediaType?: 'image' | 'video';
   description: string;
   stack: string[];
   quote: string;
@@ -206,7 +211,10 @@ export const projects: Project[] = [
     id: 'dokkaebi',
     number: '01',
     name: 'Dokkaebi',
-    image: '/images/project-1.jpg',
+    image: '/images/dokkaibi.mp4',
+    imageAlt: 'Animated Dokkaebi security interface',
+    imageFit: 'contain',
+    mediaType: 'video',
     description: 'Dockerized security scan orchestration platform with RBAC, queue dispatch, isolated execution, and reports.',
     longDescription: 'A platform that orchestrates security scans across Docker containers with role-based access control, script approval workflows, job queue dispatch, isolated execution environments, and comprehensive reporting.',
     stack: ['React', 'FastAPI', 'Celery', 'PostgreSQL', 'Redis', 'Docker'],
@@ -246,7 +254,10 @@ export const projects: Project[] = [
     id: 'fraud-detection',
     number: '02',
     name: 'Real-Time Fraud Detection',
-    image: '/images/project-2.jpg',
+    image: '/images/fraud.jpg',
+    imageAlt: 'Illustration of a person with binary-code glasses',
+    imagePanelClassName: 'aspect-[16/10] sm:aspect-video',
+    imageFit: 'contain',
     description: 'Azure ML fraud detection pipeline with REST inference, Blob audit, and dashboards.',
     longDescription: 'End-to-end fraud detection pipeline on Azure ML with a transaction simulator, REST inference endpoint, Blob Storage audit layer, Streamlit dashboard, and Power BI analytics.',
     stack: ['Azure ML', 'Python', 'Streamlit', 'Blob Storage', 'Power BI'],
@@ -286,7 +297,11 @@ export const projects: Project[] = [
     id: 'smart-checkup-iot',
     number: '03',
     name: 'Smart Check-Up IoT',
-    image: '/images/project-3.jpg',
+    image: '/images/iotdetection.jpg',
+    imageAlt: 'Illustration of a uniformed figure holding a glowing key',
+    imageClassName: 'object-[50%_44%] sm:object-[50%_48%]',
+    imagePanelClassName: 'aspect-[4/5] sm:aspect-[3/4]',
+    imageFit: 'cover',
     description: 'RFID + PIN attendance system with MariaDB logs and Node-RED dashboard.',
     longDescription: 'An RFID and PIN-based attendance and access control system with MariaDB audit logging and a Node-RED monitoring dashboard.',
     stack: ['Arduino', 'Node-RED', 'MariaDB', 'RFID'],
@@ -309,7 +324,11 @@ export const projects: Project[] = [
     id: 'ai-voice-agent',
     number: '04',
     name: 'AI Voice Agent',
-    image: '/images/profile.jpg',
+    image: '/images/jarvis.jpg',
+    imageAlt: 'J.A.R.V.I.S. circular voice-assistant interface',
+    imageClassName: 'object-[50%_48%] sm:object-center',
+    imagePanelClassName: 'aspect-[3/4] sm:aspect-[2/3]',
+    imageFit: 'cover',
     description: 'Python voice assistant with speech recognition and system automation.',
     longDescription: 'A voice automation assistant built in Python with speech recognition, command routing, system actions, and external API automation capabilities.',
     stack: ['Python', 'Speech Recognition', 'Automation APIs'],
