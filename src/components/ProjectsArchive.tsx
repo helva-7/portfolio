@@ -7,6 +7,25 @@ interface ProjectsArchiveProps {
 }
 
 export default function ProjectsArchive({ projects, summary }: ProjectsArchiveProps) {
+  const motionBootstrap = `
+    (() => {
+      const folders = document.querySelectorAll('.project-uncrumple-shell');
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce) {
+        folders.forEach((folder) => folder.classList.add('is-scroll-open'));
+        return;
+      }
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-scroll-open');
+          observer.unobserve(entry.target);
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+      folders.forEach((folder) => observer.observe(folder));
+    })();
+  `;
+
   return (
     <article className="paper-archive board-note board-note--wide" data-board-note data-board-variant="archive">
       <span className="paper-card__pin" aria-hidden />
@@ -35,6 +54,7 @@ export default function ProjectsArchive({ projects, summary }: ProjectsArchivePr
           </div>
         </div>
       </div>
+      <script dangerouslySetInnerHTML={{ __html: motionBootstrap }} />
     </article>
   );
 }

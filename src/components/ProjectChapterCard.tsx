@@ -1,6 +1,7 @@
 import type { Project } from '@/data/portfolio';
 import ImagePanel from './ImagePanel';
 import ProjectDossierPanel from './ProjectDossierPanel';
+import ProjectUncrumpleShell from './ProjectUncrumpleShell';
 
 interface ProjectChapterCardProps {
   project: Project;
@@ -12,11 +13,13 @@ export default function ProjectChapterCard({ project, index }: ProjectChapterCar
   const titleId = `project-${project.number}-title`;
 
   return (
+    <ProjectUncrumpleShell index={index}>
     <article
       id={`project-${project.id}`}
       className={`project-file project-file--${project.id} ${index % 2 === 0 ? 'project-file--left' : 'project-file--right'}`}
       data-evidence={evidence}
       data-project={project.id}
+      data-anime-uncrumple
       aria-label={`${project.name}. Evidence status: ${evidence.toLowerCase()}`}
     >
       <span className="project-file__evidence-stamp" aria-hidden>{evidence}</span>
@@ -64,5 +67,6 @@ export default function ProjectChapterCard({ project, index }: ProjectChapterCar
         <ProjectDossierPanel project={project} />
       </details>
     </article>
+    </ProjectUncrumpleShell>
   );
 }

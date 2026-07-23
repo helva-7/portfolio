@@ -3,6 +3,7 @@ import CommandCenter from '@/components/CommandCenter';
 import MangaCover from '@/components/MangaCover';
 import MangaScene from '@/components/MangaScene';
 import QuoteDivider from '@/components/QuoteDivider';
+import MangaPanelSequence from '@/components/MangaPanelSequence';
 import ProjectsArchive from '@/components/ProjectsArchive';
 import StatSheet from '@/components/StatSheet';
 import SkillLoadout from '@/components/SkillLoadout';
@@ -31,6 +32,8 @@ export default function Home() {
         ))}
 
         <QuoteDivider {...deconstructionPages[4]} />
+
+        <MangaPanelSequence />
 
         <section id="projects" tabIndex={-1} className="whiteboard-section whiteboard-section--projects relative z-10 mx-auto max-w-page px-4 py-24 md:px-6 lg:pl-12">
           <ProjectsArchive projects={projects} summary={cvSummary} />

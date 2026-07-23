@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import type { DeconstructionPage } from '@/data/portfolio';
+import { animateIntertitleCut } from '@/lib/manga-anime';
 
 type QuoteDividerProps = Pick<DeconstructionPage, 'id' | 'kicker' | 'keyword' | 'quote' | 'supportingTerms' | 'backgroundImage'>;
 
@@ -12,22 +13,32 @@ export default function QuoteDivider({ id, kicker, keyword, quote, supportingTer
 
   useEffect(() => {
     const section = sectionRef.current;
-    if (!section || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (!section) return;
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setHasCutIn(true);
       return;
     }
 
+    const timeline = animateIntertitleCut(section);
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setHasCutIn(true);
+          timeline?.play();
           observer.disconnect();
         }
       },
-      { threshold: 0.35 }
+      { threshold: 0.35 },
     );
 
     observer.observe(section);
-    return () => observer.disconnect();
+
+    return () => {
+      timeline?.pause?.();
+      timeline?.revert?.();
+      observer.disconnect();
+    };
   }, []);
 
   const fragmentPoint = Math.max(2, Math.ceil(keyword.length * 0.52));

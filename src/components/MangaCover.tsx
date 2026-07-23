@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { profile } from '@/data/portfolio';
 import { withBasePath } from '@/lib/base-path';
+import MangaOccultSigil from './MangaOccultSigil';
 export default function MangaCover() {
   const [imgError, setImgError] = useState(false);
 
@@ -14,6 +15,7 @@ export default function MangaCover() {
         <div className="cover-stage__plane cover-stage__plane--one" />
         <div className="cover-stage__plane cover-stage__plane--two" />
         <div className="cover-stage__plane cover-stage__plane--three" />
+        <MangaOccultSigil className="cover-stage__sigil" label="VOLUME 01 / SIGIL" />
       </div>
 
       <div className="cover-stage__layout relative z-10 mx-auto flex w-full max-w-page flex-col gap-12 px-4 pt-28 pb-12 md:px-6 lg:grid lg:grid-cols-[1.2fr_0.8fr] lg:gap-16">
@@ -70,6 +72,7 @@ export default function MangaCover() {
         </div>
 
         <div className="cover-stage__visual relative flex items-center justify-center lg:justify-end">
+          <div className="cover-stage__shadow-echo" aria-hidden />
           <div className="cover-stage__portrait-frame relative w-full max-w-md">
             <div className="cover-stage__portrait-meta">
               <span>CASE 00</span>

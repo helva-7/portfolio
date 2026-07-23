@@ -1,5 +1,6 @@
 import type { Scene } from '@/data/portfolio';
 import ImagePanel from './ImagePanel';
+import MangaDictionaryReveal from './MangaDictionaryReveal';
 import QuotePanel from './QuotePanel';
 import Reveal from './Reveal';
 
@@ -43,12 +44,12 @@ export default function MangaScene({ scene }: MangaSceneProps) {
       tabIndex={-1}
       className="scene-sheet relative z-10 grid items-center gap-8 overflow-visible p-6 md:p-8 lg:grid-cols-[1fr_0.9fr]"
     >
-      <aside className="dictionary-card" aria-label={`${signal.term} definition`}>
+      <MangaDictionaryReveal aria-label={`${signal.term} definition`}>
         <span className="dictionary-card__index">怪異辞典 / {scene.chapterLabel}</span>
         <strong className="dictionary-card__term">{signal.term}</strong>
         <span className="dictionary-card__rule" />
         <p>{signal.definition}</p>
-      </aside>
+      </MangaDictionaryReveal>
 
       <span className="scene-bg-word right-0 top-0 -z-10 rotate-3">
         {scene.backgroundWord}

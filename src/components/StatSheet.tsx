@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
+import { animate, stagger } from 'animejs';
 import type { Skill } from '@/data/portfolio';
 
 interface StatSheetProps {
@@ -34,8 +35,26 @@ export default function StatSheet({ skills }: StatSheetProps) {
         setAnimated(true);
         return;
       }
-      const timer = setTimeout(() => setAnimated(true), 400);
-      return () => clearTimeout(timer);
+      const root = ref.current;
+      if (!root) return;
+      setAnimated(true);
+      const rows = root.querySelectorAll<HTMLElement>('[data-stat-row]');
+      const meters = root.querySelectorAll<HTMLElement>('[data-stat-fill]');
+      animate(rows, {
+        opacity: [0, 1],
+        translateX: (_, i) => [(i ?? 0) % 2 ? 80 : -80, 0],
+        scale: [0.55, 1.08, 1],
+        rotate: (_, i) => [(i ?? 0) % 2 ? 7 : -7, 0],
+        duration: 900,
+        delay: stagger(120),
+        ease: 'outElastic(1, .55)',
+      });
+      animate(meters, {
+        scaleX: [0, 1.08, 1],
+        duration: 1100,
+        delay: stagger(120, { start: 240 }),
+        ease: 'outElastic(1, .45)',
+      });
     }
   }, [visible, animated]);
 
@@ -67,7 +86,8 @@ export default function StatSheet({ skills }: StatSheetProps) {
             skill.glitch ? (
               <div
                 key={skill.label}
-                className={`resilience-breakout ${animated ? 'is-animated' : ''}`}
+                className={`resilience-breakout stat-hyperbole stat-hyperbole--resilience ${animated ? 'is-animated' : ''}`}
+                data-stat-row
                 style={{ '--break-delay': `${i * 120}ms` } as CSSProperties}
               >
                 <div className="resilience-breakout__row">
@@ -85,6 +105,7 @@ export default function StatSheet({ skills }: StatSheetProps) {
                     <div className="resilience-breakout__meter-track" />
                     <div
                       className="resilience-breakout__meter-fill"
+                      data-stat-fill
                       style={{
                         width: animated ? `${skill.value}%` : '0%',
                         transition: 'width 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
@@ -100,13 +121,20 @@ export default function StatSheet({ skills }: StatSheetProps) {
                 <span className="resilience-breakout__shards" aria-hidden><i /><i /><i /></span>
               </div>
             ) : (
-              <div key={skill.label} className="stat-row grid grid-cols-[1fr_1.5fr_auto] items-center gap-3 md:gap-4" data-boost={`+${Math.max(1, Math.round(skill.value / 12))}`}>
+              <div
+                key={skill.label}
+                className={`stat-row stat-hyperbole stat-hyperbole--${i % 6} grid grid-cols-[1fr_1.5fr_auto] items-center gap-3 md:gap-4`}
+                data-boost={`+${Math.max(1, Math.round(skill.value / 12))}`}
+                data-stat-row
+              >
+                <span className="stat-hyperbole__impact" aria-hidden>{['爆', '雲', '速', '核', '盾', '斬'][i % 6]}</span>
                 <span className="font-body text-xs font-black uppercase tracking-[0.12em] text-ink md:text-sm">
                   {skill.label}
                 </span>
                 <div className="relative h-5 border-[3px] border-ink bg-paper-dark">
                   <div
                     className="absolute inset-0 origin-left bg-ink transition-all duration-1000 ease-out"
+                    data-stat-fill
                     style={{
                       width: animated ? `${skill.value}%` : '0%',
                       transitionDelay: `${i * 120}ms`,
