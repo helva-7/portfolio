@@ -13,8 +13,16 @@ export default function StatSheet({ skills }: StatSheetProps) {
       const sheet = document.querySelector('[data-stat-sheet]');
       if (!sheet) return;
       const activate = () => {
+        const resilience = sheet.querySelector('.resilience-breakout');
+        const meter = resilience?.querySelector('.resilience-breakout__meter');
+        if (resilience && meter) {
+          const bounds = meter.getBoundingClientRect();
+          const distance = Math.max(180, window.innerWidth - bounds.right - 28);
+          resilience.style.setProperty('--infinity-distance', distance + 'px');
+        }
         sheet.classList.add('is-stats-live');
-        sheet.querySelector('.resilience-breakout')?.classList.add('is-animated');
+        sheet.classList.add('is-resilience-critical');
+        resilience?.classList.add('is-animated');
       };
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         activate();
@@ -84,6 +92,18 @@ export default function StatSheet({ skills }: StatSheetProps) {
                     />
                     <span className="resilience-breakout__fracture" aria-hidden />
                     <span className="resilience-breakout__overdrive" aria-hidden />
+                    <span className="resilience-breakout__infinity-burst" aria-hidden>
+                      <i className="resilience-breakout__core" />
+                      <i className="resilience-breakout__shock resilience-breakout__shock--one" />
+                      <i className="resilience-breakout__shock resilience-breakout__shock--two" />
+                      <i className="resilience-breakout__infinite-beam">
+                        <b>∞</b>
+                      </i>
+                      <i className="resilience-breakout__infinite-label">LIMIT // NULL</i>
+                      <span className="resilience-breakout__debris">
+                        {Array.from({ length: 14 }, (_, shard) => <i key={shard} />)}
+                      </span>
+                    </span>
                   </div>
                   <strong className="resilience-breakout__score">
                     {skill.value}
