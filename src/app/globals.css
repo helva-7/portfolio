@@ -6119,25 +6119,6 @@ body {
   transform: scale(1);
 }
 
-.project-fusion-driver {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.project-fusion-canvas {
-  position: absolute;
-  z-index: 6;
-  display: block;
-  opacity: 0;
-  pointer-events: none;
-  transform: translateZ(0);
-  transition: none;
-}
-
 .project-uncrumple-shell .project-file[data-anime-uncrumple] {
   visibility: hidden;
   opacity: 0;
@@ -6149,45 +6130,25 @@ body {
   opacity: 0;
 }
 
-.project-uncrumple-shell.is-fusing .project-fusion-canvas {
-  opacity: 1;
-  will-change: opacity;
+.project-uncrumple-shell.is-lightweight-reveal .project-file[data-anime-uncrumple] {
+  visibility: visible;
+  animation: project-paper-reveal 620ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: transform, opacity;
 }
 
-.project-uncrumple-shell.is-fusing:not(.has-paper-frame)::after {
-  content: '';
-  position: absolute;
-  z-index: 7;
-  left: 50%;
-  top: 50%;
-  width: clamp(3.7rem, 8%, 5.2rem);
-  aspect-ratio: 1.12;
-  background:
-    linear-gradient(143deg, transparent 0 13%, rgba(34, 38, 48, 0.24) 14% 17%, transparent 18%),
-    linear-gradient(38deg, rgba(255, 255, 255, 0.94) 0 20%, rgba(168, 169, 164, 0.68) 22% 31%, rgba(247, 244, 232, 0.96) 33% 58%, rgba(79, 82, 86, 0.28) 60% 66%, rgba(235, 230, 215, 0.95) 69%),
-    var(--paper);
-  clip-path: polygon(17% 4%, 42% 0, 57% 9%, 78% 4%, 96% 24%, 91% 44%, 100% 62%, 78% 78%, 65% 97%, 42% 91%, 19% 100%, 3% 79%, 8% 61%, 0 39%);
-  box-shadow:
-    0 0.75rem 1.1rem rgba(23, 26, 36, 0.28),
-    inset 0.4rem 0.25rem 0.7rem rgba(255, 255, 255, 0.8),
-    inset -0.5rem -0.4rem 0.75rem rgba(23, 26, 36, 0.2);
-  transform: translate(-50%, -50%) rotate(-5deg);
-  pointer-events: none;
-}
-
-.project-uncrumple-shell.is-fusing .project-file {
-  will-change: opacity;
-}
-
-.project-uncrumple-shell.is-snapshotting .project-file__header,
-.project-uncrumple-shell.is-snapshotting .project-file__media,
-.project-uncrumple-shell.is-snapshotting .project-file__content,
-.project-uncrumple-shell.is-snapshotting .project-file__details {
-  visibility: visible !important;
-  opacity: 1 !important;
-  animation: none !important;
-  transform: none !important;
-  filter: none !important;
+@keyframes project-paper-reveal {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 2rem, 0) scale(0.96, 0.84) rotate(-0.7deg);
+  }
+  68% {
+    opacity: 1;
+    transform: translate3d(0, -0.2rem, 0) scale(1.005, 1.012) rotate(0.15deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1) rotate(0);
+  }
 }
 
 .project-uncrumple-shell.is-scroll-open .project-file__header,
@@ -6207,10 +6168,6 @@ body {
   clip-path: none !important;
   will-change: auto;
   pointer-events: auto;
-}
-
-.project-uncrumple-shell.is-fusion-complete .project-fusion-canvas {
-  display: none;
 }
 
 .project-file__image img,
