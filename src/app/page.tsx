@@ -11,11 +11,19 @@ import SiteCaseStudy from '@/components/SiteCaseStudy';
 import ContactFinal from '@/components/ContactFinal';
 import Footer from '@/components/Footer';
 import AnomalyField from '@/components/AnomalyField';
+import BoardMotion from '@/components/BoardMotion';
+import ArtisticMotion from '@/components/ArtisticMotion';
+import PaperDropIntro from '@/components/PaperDropIntro';
 import { cvSummary, deconstructionPages, navLinks, profile, projects, scenes, skillLoadouts, skills } from '@/data/portfolio';
 
 export default function Home() {
   return (
-    <main className="whiteboard-page relative min-h-screen bg-paper text-ink">
+    <>
+      <PaperDropIntro />
+      <ArtisticMotion />
+      <BoardMotion />
+
+      <main className="whiteboard-page relative min-h-screen bg-paper text-ink">
       <CommandCenter navLinks={navLinks} skillLoadouts={skillLoadouts} github={profile.github} linkedin={profile.linkedin} email={profile.email} />
       <AnomalyField />
       <Navbar />
@@ -73,5 +81,6 @@ export default function Home() {
         <Footer />
       </div>
     </main>
+    </>
   );
 }

@@ -6560,3 +6560,411 @@ body {
     animation: none !important;
   }
 }
++
+/* ============================================================
+   ARTISTIC ANIMATIONS — anime.js integration
+   - paper uncrumple on project cards
+   - ink signature draw-on for text eyebrows
+   - page-load paper drop intro
+   ============================================================ */
+
+/* --- Paper uncrumple on project cards --- */
+.project-file {
+  /* override existing rotate so the JS-set one wins cleanly */
+  transform-origin: 50% 50%;
+  will-change: transform, clip-path, opacity;
+  /* Slight texture overlay to make the "uncrumple" feel physical */
+  position: relative;
+  isolation: isolate;
+}
+
+.project-file::before,
+.project-file::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0.6s ease 0.2s;
+  background:
+    linear-gradient(118deg, transparent 38%, rgba(17, 17, 26, 0.18) 39%, transparent 41%),
+    linear-gradient(58deg, transparent 64%, rgba(17, 17, 26, 0.12) 66%, transparent 68%),
+    linear-gradient(-38deg, transparent 44%, rgba(17, 17, 26, 0.1) 46%, transparent 48%);
+}
+
+.project-file.is-uncrumpled::before,
+.project-file.is-uncrumpled::after {
+  opacity: 0.55;
+}
+
+/* "shadow pop" once the card has finished uncrumpling */
+.project-file.is-uncrumpled {
+  box-shadow:
+    8px 8px 0 rgba(29, 39, 51, 0.08),
+    0 12px 24px rgba(29, 39, 51, 0.06),
+    0 0 0 1px rgba(29, 39, 51, 0.04);
+  transition: box-shadow 0.6s ease;
+}
+
+.project-file.is-uncrumpled:hover,
+.project-file.is-uncrumpled:focus-within {
+  box-shadow:
+    14px 14px 0 rgba(29, 39, 51, 0.12),
+    0 22px 40px rgba(29, 39, 51, 0.1);
+}
+
+/* --- Ink signature draw-on --- */
+.is-ink-signing {
+  font-family: var(--font-body), sans-serif;
+  display: inline-flex;
+  flex-wrap: wrap;
+  overflow: visible;
+}
+
+.ink-char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+/* After the signing animation completes, the eyebrow gets a hand-drawn
+   underline that "scribbles" into existence. */
+.is-ink-signed {
+  position: relative;
+}
+
+.is-ink-signed::after {
+  content: '';
+  position: absolute;
+  left: -2px;
+  right: -2px;
+  bottom: -6px;
+  height: 6px;
+  background:
+    radial-gradient(circle at 12% 50%, var(--ink) 0 1.4px, transparent 1.6px),
+    radial-gradient(circle at 26% 50%, var(--ink) 0 1.2px, transparent 1.4px),
+    radial-gradient(circle at 40% 50%, var(--ink) 0 1.6px, transparent 1.8px),
+    radial-gradient(circle at 56% 50%, var(--ink) 0 1.2px, transparent 1.4px),
+    radial-gradient(circle at 70% 50%, var(--ink) 0 1.4px, transparent 1.6px),
+    radial-gradient(circle at 86% 50%, var(--ink) 0 1.2px, transparent 1.4px);
+  background-size: 18px 6px;
+  background-repeat: repeat-x;
+  transform-origin: left center;
+  transform: scaleX(0);
+  animation: ink-underline-grow 0.7s 0.1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes ink-underline-grow {
+  0% { transform: scaleX(0); }
+  60% { transform: scaleX(1.04); }
+  100% { transform: scaleX(1); }
+}
+
+/* --- Bakemonogatari loading sequence, in the portfolio's visual language --- */
+.portfolio-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  color: var(--ink);
+  background:
+    linear-gradient(rgba(23, 26, 36, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(23, 26, 36, 0.055) 1px, transparent 1px),
+    radial-gradient(circle at 18% 26%, rgba(187, 23, 68, 0.09) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 78% 18%, rgba(35, 111, 136, 0.08) 0 1px, transparent 1.5px),
+    linear-gradient(118deg, transparent 0 61%, rgba(187, 23, 68, 0.07) 61% 61.5%, transparent 61.5% 100%),
+    linear-gradient(180deg, var(--board) 0%, var(--paper) 100%);
+  background-size: 42px 42px, 42px 42px, 24px 24px, 30px 30px, 100% 100%, 100% 100%;
+}
+
+.portfolio-loader::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 600'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+  opacity: 0.75;
+}
+
+.portfolio-loader__card {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.portfolio-loader__card.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.portfolio-loader__image-card {
+  padding: 0;
+  background: var(--ink);
+}
+
+.portfolio-loader__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: center;
+  user-select: none;
+}
+
+.portfolio-loader__card h1 {
+  margin: 0;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(2rem, 6vw, 4rem);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.portfolio-loader__card h2 {
+  margin: 8px 0 0;
+  font-family: var(--font-body), monospace;
+  font-size: clamp(0.875rem, 2vw, 1.25rem);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+
+.portfolio-loader__card p {
+  margin: 12px 0 0;
+  font-family: var(--font-body), monospace;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  opacity: 0.55;
+}
+
+.portfolio-loader .big-char {
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(3.5rem, 12vw, 7rem);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.portfolio-loader .big-num {
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(4rem, 14vw, 8rem);
+  font-weight: 400;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+}
+
+.portfolio-loader .c1 { color: var(--red); }
+.portfolio-loader .c2 { color: var(--muted-blue); }
+.portfolio-loader .c3 { color: var(--acid); }
+.portfolio-loader .c4 { color: var(--violet); }
+.portfolio-loader .c5 { color: var(--yellow); }
+.portfolio-loader .cw { color: var(--ink); }
+
+.portfolio-loader .welcome-card.active {
+  animation: portfolio-loader-bump5 0.55s steps(1) 1;
+}
+
+@keyframes portfolio-loader-bump5 {
+  0%   { transform: translate(0, 0); }
+  10%  { transform: translate(-3px, 2px); }
+  20%  { transform: translate(3px, -2px); }
+  30%  { transform: translate(-2px, 3px); }
+  40%  { transform: translate(2px, -3px); }
+  50%  { transform: translate(-3px, 1px); }
+  60%  { transform: translate(3px, -1px); }
+  70%  { transform: translate(-1px, 3px); }
+  80%  { transform: translate(1px, -2px); }
+  90%  { transform: translate(-2px, 1px); }
+  100% { transform: translate(0, 0); }
+}
+
+.portfolio-loader__progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 3px;
+  background: currentColor;
+  opacity: 0.55;
+  transition: width linear;
+}
+
+.portfolio-loader__controls {
+  position: absolute;
+  right: 20px;
+  bottom: 16px;
+  z-index: 10;
+  display: flex;
+  gap: 8px;
+}
+
+.portfolio-loader__controls button,
+.portfolio-loader__enter {
+  border: 1px solid rgba(23, 26, 36, 0.22);
+  border-radius: 6px;
+  color: rgba(23, 26, 36, 0.72);
+  background: rgba(244, 240, 231, 0.58);
+  font-family: var(--font-body), monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.portfolio-loader__controls button {
+  padding: 5px 14px;
+}
+
+.portfolio-loader__controls button:hover,
+.portfolio-loader__enter:hover {
+  color: var(--paper);
+  background: var(--ink);
+  border-color: var(--ink);
+}
+
+.portfolio-loader__enter {
+  margin-top: 20px;
+  padding: 10px 32px;
+  border-width: 1.5px;
+  border-radius: 8px;
+  color: var(--ink);
+  background: transparent;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+}
+
+/* --- Manga-style ink splat on hover (for paper-card__stamp etc.) --- */
+.paper-card__stamp {
+  position: relative;
+  overflow: visible;
+}
+
+.paper-card__stamp::before {
+  content: '';
+  position: absolute;
+  inset: -3px -6px;
+  background:
+    radial-gradient(circle at 30% 60%, rgba(187, 23, 68, 0.18) 0 6px, transparent 7px),
+    radial-gradient(circle at 70% 30%, rgba(187, 23, 68, 0.12) 0 4px, transparent 5px),
+    radial-gradient(circle at 80% 80%, rgba(187, 23, 68, 0.18) 0 5px, transparent 6px);
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  transform: scale(0.85);
+  pointer-events: none;
+}
+
+.paper-card:hover .paper-card__stamp::before,
+.paper-card:focus-within .paper-card__stamp::before {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* --- Pin wobble on hover (paper-card__pin) --- */
+.paper-card__pin {
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform-origin: 50% 100%;
+}
+
+.paper-card:hover .paper-card__pin,
+.paper-card:focus-within .paper-card__pin {
+  animation: pin-sway 1.4s ease-in-out infinite;
+}
+
+@keyframes pin-sway {
+  0%, 100% { transform: rotate(-3deg); }
+  50%      { transform: rotate(3deg); }
+}
+
+/* --- Hand-drawn arrow connectors for project-file details --- */
+.project-file__details[open] {
+  animation: details-unfurl 0.55s ease-out;
+}
+
+@keyframes details-unfurl {
+  0%   { opacity: 0; transform: translateY(-4px) scaleY(0.94); transform-origin: top center; }
+  60%  { opacity: 1; transform: translateY(0) scaleY(1.01); }
+  100% { opacity: 1; transform: translateY(0) scaleY(1); }
+}
+
+/* --- Ticker tape drift for evidence stamps --- */
+.project-file__evidence-stamp {
+  position: absolute;
+  top: -0.6rem;
+  right: -0.4rem;
+  z-index: 4;
+  border: 3px solid var(--ink);
+  background: var(--yellow);
+  color: var(--ink);
+  padding: 0.3rem 0.55rem;
+  font-family: var(--font-body), sans-serif;
+  font-size: 0.58rem;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  transform: rotate(8deg);
+  opacity: 0;
+  transition: opacity 0.4s ease 0.2s, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s;
+}
+
+.project-file.is-uncrumpled .project-file__evidence-stamp {
+  opacity: 1;
+  transform: rotate(6deg);
+}
+
+/* --- Dashed connection lines drawn between archive items --- */
+.project-stack > .project-file:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 1.4rem;
+  bottom: -0.95rem;
+  width: 2px;
+  height: 0.7rem;
+  background-image:
+    linear-gradient(180deg, var(--ink) 0 4px, transparent 4px 8px);
+  background-size: 2px 8px;
+  background-repeat: repeat-y;
+  opacity: 0.5;
+}
+
+/* --- Smoother transitions for project files before uncrumple starts --- */
+.project-file {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Honor reduced motion globally for the new effects */
+@media (prefers-reduced-motion: reduce) {
+  .project-file,
+  .project-file::before,
+  .project-file::after,
+  .ink-char,
+  .paper-card__pin,
+  .project-file__evidence-stamp {
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+  .portfolio-loader {
+    display: none;
+  }
+}
