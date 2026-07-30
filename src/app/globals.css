@@ -6795,6 +6795,73 @@ body {
   width: min(82rem, 86vw);
 }
 
+.portfolio-loader .loader-copy--field {
+  align-items: stretch;
+  justify-content: stretch;
+  padding: clamp(2.5rem, 7vh, 5.5rem) clamp(1.5rem, 6vw, 6rem);
+  text-align: left;
+}
+
+.loader-copy__field {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 0;
+}
+
+.portfolio-loader .loader-copy__field p {
+  max-width: min(38ch, 68vw);
+  margin: 0;
+  font-family: var(--font-body), sans-serif;
+  font-size: clamp(1rem, 2.2vw, 2rem);
+  font-weight: 800;
+  letter-spacing: 0.055em;
+  line-height: 1.3;
+  text-transform: uppercase;
+  opacity: 0.88;
+}
+
+.loader-copy--field-horizontal .loader-copy__field p:nth-child(2n) {
+  align-self: center;
+  text-align: center;
+}
+
+.loader-copy--field-horizontal .loader-copy__field p:nth-child(3n) {
+  align-self: flex-end;
+  text-align: right;
+}
+
+.loader-copy--field-vertical .loader-copy__field {
+  flex-direction: row;
+  align-items: stretch;
+}
+
+.portfolio-loader .loader-copy--field-vertical .loader-copy__field p {
+  max-width: none;
+  max-height: 78vh;
+  font-size: clamp(0.82rem, 1.65vw, 1.45rem);
+  letter-spacing: 0.08em;
+  line-height: 1.45;
+  text-align: left;
+  writing-mode: vertical-rl;
+}
+
+.loader-copy--field-vertical .loader-copy__field p:nth-child(2n) {
+  align-self: center;
+}
+
+.loader-copy--field-vertical-reverse .loader-copy__field p:nth-child(2n + 1) {
+  transform: rotate(180deg);
+}
+
+.loader-copy--field-final .loader-copy__field p:last-child {
+  font-size: clamp(1.4rem, 3vw, 2.8rem);
+  text-transform: none;
+}
+
 .loader-copy__index {
   display: block;
   margin-bottom: clamp(0.8rem, 2vw, 1.4rem);
@@ -6961,6 +7028,20 @@ body {
 
   .loader-copy {
     width: 90vw;
+  }
+
+  .portfolio-loader .loader-copy--field {
+    padding: 4.5rem 1.25rem;
+  }
+
+  .portfolio-loader .loader-copy__field p {
+    max-width: 86vw;
+    font-size: clamp(0.82rem, 4vw, 1.2rem);
+  }
+
+  .portfolio-loader .loader-copy--field-vertical .loader-copy__field p {
+    max-height: 72vh;
+    font-size: clamp(0.72rem, 3.2vw, 1rem);
   }
 
   .portfolio-loader .loader-copy__sentence,

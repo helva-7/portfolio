@@ -4,52 +4,55 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { withBasePath } from '../lib/base-path';
 
 const loaderImagePaths = [
-  '/images/loader-standard/portfolio7.jpg',
-  '/images/loader-standard/portfoliointro2.gif',
-  '/images/loader-standard/portfolio4.jpg',
-  '/images/loader-standard/portfolio11.jpg',
-  '/images/loader-standard/portfolio_intro.jpg',
-  '/images/loader-standard/portfolio9.jpg',
-  '/images/loader-standard/portfolio3.jpg',
-  '/images/loader-standard/portfolio13.jpg',
-  '/images/loader-standard/portfolio6.jpg',
-  '/images/loader-standard/portfolio12.jpg',
-  '/images/loader-standard/portfolio5.jpg',
-  '/images/loader-standard/portfoliointro2.jpg',
-  '/images/loader-standard/portfolio10.jpg',
-  '/images/loader-standard/portfolio8.jpg',
+  '/images/loader/portfolio7.jpg',
+  '/images/loader/portfoliointro2.gif',
+  '/images/loader/portfolio4.jpg',
+  '/images/loader/portfolio11.jpg',
+  '/images/loader/portfolio_intro.jpg',
+  '/images/loader/portfolio9.jpg',
+  '/images/loader/portfolio3.jpg',
+  '/images/loader/portfolioreplace.gif',
+  '/images/loader/portfolio6.jpg',
+  '/images/loader/portfolio5.jpg',
+  '/images/loader/portfoliointro2.jpg',
+  '/images/loader/portfolio8.jpg',
+  '/images/loader/portfolioreplace.jpg',
+  '/images/loader/portfolioreplace2.jpg',
+  '/images/loader/portfolioreplace3.jpg',
 ] as const;
 
 const textCards = [
   {
     className: 'c1 loader-copy--word',
-    duration: 620,
+    duration: 700,
     content: <div className="big-char" lang="ar" dir="rtl">فكرة</div>,
   },
   {
-    className: 'c2 loader-copy--horizontal loader-copy--left',
-    duration: 920,
+    className: 'c2 loader-copy--field loader-copy--field-horizontal',
+    duration: 620,
     content: (
-      <div className="loader-copy" lang="en">
-        <span className="loader-copy__index">01 / OBSERVE</span>
-        <p className="loader-copy__sentence">Every interface begins with a question worth investigating.</p>
+      <div className="loader-copy__field" lang="en">
+        <p>Observe the system.</p>
+        <p>Find the friction.</p>
+        <p>Shape a response worth remembering.</p>
       </div>
     ),
   },
   {
-    className: 'c3 loader-copy--vertical loader-copy--edge-right',
-    duration: 780,
-    content: <p className="loader-copy__vertical-sentence" lang="fr">Chaque détail raconte une histoire.</p>,
-  },
-  {
-    className: 'c4 loader-copy--horizontal loader-copy--arabic',
-    duration: 900,
+    className: 'c3 loader-copy--field loader-copy--field-vertical',
+    duration: 550,
     content: (
-      <div className="loader-copy" lang="ar" dir="rtl">
-        <span className="loader-copy__index">02 / اكتشاف</span>
-        <p className="loader-copy__sentence">أحوّل الأفكار المعقّدة إلى تجارب رقمية واضحة وحيوية.</p>
+      <div className="loader-copy__field" lang="fr">
+        <p>Chaque détail raconte une histoire.</p>
+        <p>Chaque mouvement guide le regard.</p>
+        <p>Chaque choix construit le rythme.</p>
       </div>
     ),
+  },
+  {
+    className: 'c4 loader-copy--word',
+    duration: 480,
+    content: <div className="big-char" lang="ar" dir="rtl">اكتشاف</div>,
   },
   {
     className: 'c5 loader-copy--number',
@@ -57,76 +60,90 @@ const textCards = [
     content: <div className="big-num">03</div>,
   },
   {
-    className: 'c1 loader-copy--split',
-    duration: 880,
+    className: 'c1 loader-copy--field loader-copy--field-horizontal',
+    duration: 360,
     content: (
-      <div className="loader-copy__split-grid">
+      <div className="loader-copy__field">
         <p lang="fr">Je conçois avec intention.</p>
-        <span aria-hidden>×</span>
         <p lang="en">I build with precision.</p>
+        <p lang="fr">Le résultat doit sembler évident.</p>
       </div>
     ),
   },
   {
-    className: 'c2 loader-copy--vertical loader-copy--edge-left',
-    duration: 760,
-    content: <p className="loader-copy__vertical-sentence" lang="en">Design the feeling, then engineer the system.</p>,
+    className: 'c2 loader-copy--field loader-copy--field-vertical loader-copy--field-vertical-reverse',
+    duration: 310,
+    content: (
+      <div className="loader-copy__field" lang="en">
+        <p>Design the feeling.</p>
+        <p>Engineer the system.</p>
+        <p>Refine every transition.</p>
+      </div>
+    ),
   },
   {
-    className: 'c3 loader-copy--horizontal loader-copy--right',
-    duration: 860,
+    className: 'c3 loader-copy--field loader-copy--field-horizontal',
+    duration: 260,
     content: (
-      <div className="loader-copy" lang="fr">
-        <span className="loader-copy__index">04 / CONSTRUIRE</span>
-        <p className="loader-copy__sentence">Le code devient matière, rythme et mouvement.</p>
+      <div className="loader-copy__field" lang="fr">
+        <p>Le code devient matière.</p>
+        <p>Le rythme devient mouvement.</p>
+        <p>L’interface devient expérience.</p>
       </div>
     ),
   },
   {
     className: 'c4 loader-copy--word',
-    duration: 400,
+    duration: 220,
     content: <div className="big-char" lang="en">MOTION</div>,
   },
   {
-    className: 'c5 loader-copy--horizontal loader-copy--arabic loader-copy--left',
-    duration: 900,
+    className: 'c5 loader-copy--word',
+    duration: 180,
+    content: <div className="big-char" lang="ar" dir="rtl">حركة</div>,
+  },
+  {
+    className: 'c1 loader-copy--field loader-copy--field-vertical',
+    duration: 150,
     content: (
-      <div className="loader-copy" lang="ar" dir="rtl">
-        <span className="loader-copy__index">05 / حركة</span>
-        <p className="loader-copy__sentence">التفاصيل الصغيرة هي التي تمنح التجربة شخصيتها.</p>
+      <div className="loader-copy__field" lang="fr">
+        <p>Créer avec curiosité.</p>
+        <p>Tester avec honnêteté.</p>
+        <p>Affiner avec patience.</p>
+        <p>Recommencer avec intention.</p>
       </div>
     ),
   },
   {
-    className: 'c1 loader-copy--vertical loader-copy--center-line',
-    duration: 740,
-    content: <p className="loader-copy__vertical-sentence" lang="fr">Créer. Tester. Affiner. Recommencer.</p>,
-  },
-  {
-    className: 'c2 loader-copy--horizontal',
-    duration: 850,
+    className: 'c2 loader-copy--field loader-copy--field-horizontal',
+    duration: 120,
     content: (
-      <div className="loader-copy" lang="en">
-        <span className="loader-copy__index">06 / DELIVER</span>
-        <p className="loader-copy__sentence">Useful enough to trust. Distinct enough to remember.</p>
+      <div className="loader-copy__field" lang="en">
+        <p>Useful enough to trust.</p>
+        <p>Distinct enough to remember.</p>
       </div>
     ),
   },
   {
     className: 'c3 loader-copy--word',
-    duration: 430,
+    duration: 95,
     content: <div className="big-char" lang="fr">PRÊT</div>,
   },
   {
-    className: 'c4 loader-copy--trilingual',
-    duration: 1100,
+    className: 'c4 loader-copy--field loader-copy--field-horizontal loader-copy--field-final',
+    duration: 75,
     content: (
-      <div className="loader-copy__trilingual">
-        <span lang="en">ENTER THE STORY</span>
-        <span lang="fr">ENTREZ DANS L’HISTOIRE</span>
-        <span lang="ar" dir="rtl">ادخل إلى الحكاية</span>
+      <div className="loader-copy__field">
+        <p lang="en">Enter the story.</p>
+        <p lang="fr">Entrez dans l’histoire.</p>
+        <p lang="ar" dir="rtl">ابدأ</p>
       </div>
     ),
+  },
+  {
+    className: 'c5 loader-copy--number',
+    duration: 60,
+    content: <div className="big-num">07</div>,
   },
 ] as const;
 
@@ -139,7 +156,7 @@ const createLoaderCards = (imageOrder: readonly string[]) => [
     },
     {
       className: card.className,
-      duration: Math.max(260, Math.min(480, Math.round(card.duration * 0.55))),
+      duration: card.duration,
       kind: 'image' as const,
       image: imageOrder[index],
       content: null,
@@ -153,7 +170,7 @@ const createLoaderCards = (imageOrder: readonly string[]) => [
     content: (
       <>
         <h1>Welcome · Bienvenue · مرحباً</h1>
-        <p>the portfolio is ready / le portfolio est prêt / الملف جاهز</p>
+        <p>the portfolio is ready / le portfolio est prêt / جاهز</p>
       </>
     ),
   },
