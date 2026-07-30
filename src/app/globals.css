@@ -6560,7 +6560,6 @@ body {
     animation: none !important;
   }
 }
-+
 /* ============================================================
    ARTISTIC ANIMATIONS — anime.js integration
    - paper uncrumple on project cards
@@ -6768,6 +6767,220 @@ body {
   line-height: 1;
   font-variant-numeric: tabular-nums;
   font-feature-settings: 'tnum' 1;
+}
+
+.portfolio-loader .loader-copy--horizontal {
+  align-items: stretch;
+  text-align: left;
+}
+
+.portfolio-loader .loader-copy--left {
+  justify-content: flex-end;
+  padding-bottom: clamp(5rem, 15vh, 9rem);
+  padding-left: clamp(1.5rem, 8vw, 8rem);
+}
+
+.portfolio-loader .loader-copy--right {
+  align-items: flex-end;
+  padding-right: clamp(1.5rem, 8vw, 8rem);
+  text-align: right;
+}
+
+.portfolio-loader .loader-copy--arabic {
+  text-align: right;
+}
+
+.loader-copy {
+  position: relative;
+  width: min(82rem, 86vw);
+}
+
+.loader-copy__index {
+  display: block;
+  margin-bottom: clamp(0.8rem, 2vw, 1.4rem);
+  font-family: var(--font-body), monospace;
+  font-size: clamp(0.58rem, 1.2vw, 0.82rem);
+  font-weight: 900;
+  letter-spacing: 0.24em;
+  opacity: 0.62;
+}
+
+.portfolio-loader .loader-copy__sentence {
+  max-width: 18ch;
+  margin: 0;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(2rem, 6.2vw, 6.8rem);
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  line-height: 0.92;
+  text-wrap: balance;
+  opacity: 1;
+}
+
+.portfolio-loader [lang='ar'].loader-copy .loader-copy__sentence {
+  max-width: 16ch;
+  font-family: var(--font-body), sans-serif;
+  font-size: clamp(2rem, 5.4vw, 5.8rem);
+  font-weight: 900;
+  letter-spacing: 0;
+  line-height: 1.25;
+}
+
+.loader-copy--vertical {
+  align-items: center;
+  padding-block: clamp(4rem, 10vh, 7rem);
+}
+
+.loader-copy--edge-left {
+  align-items: flex-start;
+  padding-left: clamp(1.5rem, 9vw, 9rem);
+}
+
+.loader-copy--edge-right {
+  align-items: flex-end;
+  padding-right: clamp(1.5rem, 9vw, 9rem);
+}
+
+.portfolio-loader .loader-copy__vertical-sentence {
+  max-height: 72vh;
+  margin: 0;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(1.7rem, 4.5vw, 4.4rem);
+  font-weight: 500;
+  letter-spacing: 0.035em;
+  line-height: 0.9;
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+  opacity: 1;
+}
+
+.loader-copy--edge-left .loader-copy__vertical-sentence {
+  transform: rotate(180deg);
+}
+
+.loader-copy--center-line::before {
+  content: '';
+  position: absolute;
+  top: 8vh;
+  bottom: 8vh;
+  left: 50%;
+  width: 1px;
+  background: currentColor;
+  opacity: 0.22;
+}
+
+.loader-copy--split {
+  align-items: stretch;
+}
+
+.loader-copy__split-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  width: min(90rem, 88vw);
+  gap: clamp(1rem, 4vw, 4rem);
+}
+
+.portfolio-loader .loader-copy__split-grid p {
+  margin: 0;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(2rem, 5vw, 5.5rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+  opacity: 1;
+}
+
+.portfolio-loader .loader-copy__split-grid p:first-child {
+  text-align: right;
+}
+
+.loader-copy__split-grid > span {
+  font-family: var(--font-body), monospace;
+  font-size: clamp(1.2rem, 2.5vw, 2.4rem);
+  opacity: 0.42;
+}
+
+.loader-copy--word::before,
+.loader-copy--word::after {
+  content: '';
+  position: absolute;
+  width: min(20vw, 15rem);
+  height: 2px;
+  background: currentColor;
+  opacity: 0.28;
+}
+
+.loader-copy--word::before {
+  top: 22%;
+  left: 8%;
+}
+
+.loader-copy--word::after {
+  right: 8%;
+  bottom: 22%;
+}
+
+.loader-copy--trilingual {
+  align-items: stretch;
+  padding-inline: clamp(1.5rem, 6vw, 6rem);
+}
+
+.loader-copy__trilingual {
+  display: grid;
+  width: 100%;
+  gap: clamp(0.6rem, 1.6vh, 1.2rem);
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(1.8rem, 5.5vw, 6.2rem);
+  font-weight: 500;
+  line-height: 0.86;
+  text-transform: uppercase;
+}
+
+.loader-copy__trilingual span:nth-child(1) {
+  text-align: left;
+}
+
+.loader-copy__trilingual span:nth-child(2) {
+  padding-right: 7vw;
+  text-align: right;
+  opacity: 0.76;
+}
+
+.loader-copy__trilingual span:nth-child(3) {
+  font-family: var(--font-body), sans-serif;
+  font-weight: 900;
+  line-height: 1.1;
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .portfolio-loader__card {
+    padding: 1.25rem;
+  }
+
+  .loader-copy {
+    width: 90vw;
+  }
+
+  .portfolio-loader .loader-copy__sentence,
+  .portfolio-loader [lang='ar'].loader-copy .loader-copy__sentence {
+    max-width: 100%;
+  }
+
+  .loader-copy__split-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .portfolio-loader .loader-copy__split-grid p,
+  .portfolio-loader .loader-copy__split-grid p:first-child {
+    text-align: center;
+  }
+
+  .loader-copy__split-grid > span {
+    display: none;
+  }
 }
 
 .portfolio-loader .c1 { color: var(--red); }

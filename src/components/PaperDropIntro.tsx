@@ -20,25 +20,118 @@ const loaderImagePaths = [
   '/images/loader-standard/portfolio8.jpg',
 ] as const;
 
-const originalCards = [
-  { className: 'c1', duration: 700, content: <div className="big-char">化</div> },
-  { className: 'c2', duration: 620, content: <><h1>portfolio</h1><h2>loading sequence</h2></> },
-  { className: 'c3', duration: 550, content: <div className="big-char">物</div> },
-  { className: 'c4', duration: 480, content: <><h1>creative</h1><h2>developer</h2></> },
-  { className: 'c5', duration: 420, content: <div className="big-char">語</div> },
-  { className: 'c1', duration: 360, content: <><h1>frontend</h1><h2>ui / ux</h2></> },
-  { className: 'c2', duration: 310, content: <div className="big-num">01</div> },
-  { className: 'c3', duration: 260, content: <><h1>react</h1><h2>typescript</h2></> },
-  { className: 'c4', duration: 220, content: <div className="big-num">02</div> },
-  { className: 'c5', duration: 180, content: <><h1>design</h1><h2>motion</h2></> },
-  { className: 'c1', duration: 150, content: <div className="big-char">怪</div> },
-  { className: 'c2', duration: 120, content: <><h1>webgl</h1><h2>shaders</h2></> },
-  { className: 'c3', duration: 95, content: <div className="big-num">03</div> },
-  { className: 'c4', duration: 75, content: <h1>ready</h1> },
+const textCards = [
+  {
+    className: 'c1 loader-copy--word',
+    duration: 620,
+    content: <div className="big-char" lang="ar" dir="rtl">فكرة</div>,
+  },
+  {
+    className: 'c2 loader-copy--horizontal loader-copy--left',
+    duration: 920,
+    content: (
+      <div className="loader-copy" lang="en">
+        <span className="loader-copy__index">01 / OBSERVE</span>
+        <p className="loader-copy__sentence">Every interface begins with a question worth investigating.</p>
+      </div>
+    ),
+  },
+  {
+    className: 'c3 loader-copy--vertical loader-copy--edge-right',
+    duration: 780,
+    content: <p className="loader-copy__vertical-sentence" lang="fr">Chaque détail raconte une histoire.</p>,
+  },
+  {
+    className: 'c4 loader-copy--horizontal loader-copy--arabic',
+    duration: 900,
+    content: (
+      <div className="loader-copy" lang="ar" dir="rtl">
+        <span className="loader-copy__index">02 / اكتشاف</span>
+        <p className="loader-copy__sentence">أحوّل الأفكار المعقّدة إلى تجارب رقمية واضحة وحيوية.</p>
+      </div>
+    ),
+  },
+  {
+    className: 'c5 loader-copy--number',
+    duration: 420,
+    content: <div className="big-num">03</div>,
+  },
+  {
+    className: 'c1 loader-copy--split',
+    duration: 880,
+    content: (
+      <div className="loader-copy__split-grid">
+        <p lang="fr">Je conçois avec intention.</p>
+        <span aria-hidden>×</span>
+        <p lang="en">I build with precision.</p>
+      </div>
+    ),
+  },
+  {
+    className: 'c2 loader-copy--vertical loader-copy--edge-left',
+    duration: 760,
+    content: <p className="loader-copy__vertical-sentence" lang="en">Design the feeling, then engineer the system.</p>,
+  },
+  {
+    className: 'c3 loader-copy--horizontal loader-copy--right',
+    duration: 860,
+    content: (
+      <div className="loader-copy" lang="fr">
+        <span className="loader-copy__index">04 / CONSTRUIRE</span>
+        <p className="loader-copy__sentence">Le code devient matière, rythme et mouvement.</p>
+      </div>
+    ),
+  },
+  {
+    className: 'c4 loader-copy--word',
+    duration: 400,
+    content: <div className="big-char" lang="en">MOTION</div>,
+  },
+  {
+    className: 'c5 loader-copy--horizontal loader-copy--arabic loader-copy--left',
+    duration: 900,
+    content: (
+      <div className="loader-copy" lang="ar" dir="rtl">
+        <span className="loader-copy__index">05 / حركة</span>
+        <p className="loader-copy__sentence">التفاصيل الصغيرة هي التي تمنح التجربة شخصيتها.</p>
+      </div>
+    ),
+  },
+  {
+    className: 'c1 loader-copy--vertical loader-copy--center-line',
+    duration: 740,
+    content: <p className="loader-copy__vertical-sentence" lang="fr">Créer. Tester. Affiner. Recommencer.</p>,
+  },
+  {
+    className: 'c2 loader-copy--horizontal',
+    duration: 850,
+    content: (
+      <div className="loader-copy" lang="en">
+        <span className="loader-copy__index">06 / DELIVER</span>
+        <p className="loader-copy__sentence">Useful enough to trust. Distinct enough to remember.</p>
+      </div>
+    ),
+  },
+  {
+    className: 'c3 loader-copy--word',
+    duration: 430,
+    content: <div className="big-char" lang="fr">PRÊT</div>,
+  },
+  {
+    className: 'c4 loader-copy--trilingual',
+    duration: 1100,
+    content: (
+      <div className="loader-copy__trilingual">
+        <span lang="en">ENTER THE STORY</span>
+        <span lang="fr">ENTREZ DANS L’HISTOIRE</span>
+        <span lang="ar" dir="rtl">ادخل إلى الحكاية</span>
+      </div>
+    ),
+  },
 ] as const;
 
 const createLoaderCards = (imageOrder: readonly string[]) => [
-  ...originalCards.flatMap((card, index) => [
+  ...textCards.flatMap((card, index) => [
     {
       ...card,
       kind: 'word' as const,
@@ -46,7 +139,7 @@ const createLoaderCards = (imageOrder: readonly string[]) => [
     },
     {
       className: card.className,
-      duration: card.duration,
+      duration: Math.max(260, Math.min(480, Math.round(card.duration * 0.55))),
       kind: 'image' as const,
       image: imageOrder[index],
       content: null,
@@ -59,8 +152,8 @@ const createLoaderCards = (imageOrder: readonly string[]) => [
     image: null,
     content: (
       <>
-        <h1>welcome</h1>
-        <p>your portfolio loads here</p>
+        <h1>Welcome · Bienvenue · مرحباً</h1>
+        <p>the portfolio is ready / le portfolio est prêt / الملف جاهز</p>
       </>
     ),
   },
@@ -78,9 +171,8 @@ function shuffleImages(images: readonly string[]) {
 }
 
 /**
- * The supplied Bakemonogatari-inspired loader, adapted to the portfolio's
- * visual system. Card order, copy, timing, progress, and controls are kept
- * identical to the source intro.
+ * A Bakemonogatari-inspired multilingual loader adapted to the portfolio's
+ * visual system, alternating editorial text compositions and project imagery.
  */
 export default function PaperDropIntro() {
   const stageRef = useRef<HTMLDivElement>(null);
@@ -160,6 +252,10 @@ export default function PaperDropIntro() {
       return;
     }
 
+    loaderImagePaths.forEach((path) => {
+      const image = new window.Image();
+      image.src = withBasePath(path);
+    });
     setImageOrder(shuffleImages(loaderImagePaths));
 
     const previousOverflow = document.body.style.overflow;
