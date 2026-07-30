@@ -24,12 +24,14 @@ const loaderImagePaths = [
 const textCards = [
   {
     className: 'c1 loader-copy--word',
-    duration: 700,
+    duration: 1400,
+    imageDuration: 1200,
     content: <div className="big-char" lang="ar" dir="rtl">فكرة</div>,
   },
   {
     className: 'c2 loader-copy--field loader-copy--field-horizontal',
-    duration: 620,
+    duration: 1050,
+    imageDuration: 900,
     content: (
       <div className="loader-copy__field" lang="en">
         <p>Observe the system.</p>
@@ -40,7 +42,8 @@ const textCards = [
   },
   {
     className: 'c3 loader-copy--field loader-copy--field-vertical',
-    duration: 550,
+    duration: 780,
+    imageDuration: 680,
     content: (
       <div className="loader-copy__field" lang="fr">
         <p>Chaque détail raconte une histoire.</p>
@@ -51,17 +54,20 @@ const textCards = [
   },
   {
     className: 'c4 loader-copy--word',
-    duration: 480,
+    duration: 580,
+    imageDuration: 500,
     content: <div className="big-char" lang="ar" dir="rtl">اكتشاف</div>,
   },
   {
     className: 'c5 loader-copy--number',
-    duration: 420,
+    duration: 430,
+    imageDuration: 370,
     content: <div className="big-num">03</div>,
   },
   {
     className: 'c1 loader-copy--field loader-copy--field-horizontal',
-    duration: 360,
+    duration: 320,
+    imageDuration: 280,
     content: (
       <div className="loader-copy__field">
         <p lang="fr">Je conçois avec intention.</p>
@@ -72,7 +78,8 @@ const textCards = [
   },
   {
     className: 'c2 loader-copy--field loader-copy--field-vertical loader-copy--field-vertical-reverse',
-    duration: 310,
+    duration: 245,
+    imageDuration: 215,
     content: (
       <div className="loader-copy__field" lang="en">
         <p>Design the feeling.</p>
@@ -83,7 +90,8 @@ const textCards = [
   },
   {
     className: 'c3 loader-copy--field loader-copy--field-horizontal',
-    duration: 260,
+    duration: 185,
+    imageDuration: 160,
     content: (
       <div className="loader-copy__field" lang="fr">
         <p>Le code devient matière.</p>
@@ -94,17 +102,20 @@ const textCards = [
   },
   {
     className: 'c4 loader-copy--word',
-    duration: 220,
+    duration: 140,
+    imageDuration: 125,
     content: <div className="big-char" lang="en">MOTION</div>,
   },
   {
     className: 'c5 loader-copy--word',
-    duration: 180,
+    duration: 110,
+    imageDuration: 98,
     content: <div className="big-char" lang="ar" dir="rtl">حركة</div>,
   },
   {
     className: 'c1 loader-copy--field loader-copy--field-vertical',
-    duration: 150,
+    duration: 88,
+    imageDuration: 80,
     content: (
       <div className="loader-copy__field" lang="fr">
         <p>Créer avec curiosité.</p>
@@ -116,7 +127,8 @@ const textCards = [
   },
   {
     className: 'c2 loader-copy--field loader-copy--field-horizontal',
-    duration: 120,
+    duration: 74,
+    imageDuration: 68,
     content: (
       <div className="loader-copy__field" lang="en">
         <p>Useful enough to trust.</p>
@@ -126,12 +138,14 @@ const textCards = [
   },
   {
     className: 'c3 loader-copy--word',
-    duration: 95,
+    duration: 64,
+    imageDuration: 60,
     content: <div className="big-char" lang="fr">PRÊT</div>,
   },
   {
     className: 'c4 loader-copy--field loader-copy--field-horizontal loader-copy--field-final',
-    duration: 75,
+    duration: 58,
+    imageDuration: 56,
     content: (
       <div className="loader-copy__field">
         <p lang="en">Enter the story.</p>
@@ -142,26 +156,38 @@ const textCards = [
   },
   {
     className: 'c5 loader-copy--number',
-    duration: 60,
+    duration: 54,
+    imageDuration: 52,
     content: <div className="big-num">07</div>,
   },
 ] as const;
 
+const paceClass = (index: number) => {
+  if (index < 3) return 'portfolio-loader__card--slow';
+  if (index < 7) return 'portfolio-loader__card--ramp';
+  return 'portfolio-loader__card--rapid';
+};
+
 const createLoaderCards = (imageOrder: readonly string[]) => [
-  ...textCards.flatMap((card, index) => [
-    {
-      ...card,
-      kind: 'word' as const,
-      image: null,
-    },
-    {
-      className: card.className,
-      duration: card.duration,
-      kind: 'image' as const,
-      image: imageOrder[index],
-      content: null,
-    },
-  ]),
+  ...textCards.flatMap((card, index) => {
+    const cadence = paceClass(index);
+
+    return [
+      {
+        ...card,
+        className: `${card.className} ${cadence}`,
+        kind: 'word' as const,
+        image: null,
+      },
+      {
+        className: `${card.className} ${cadence}`,
+        duration: card.imageDuration,
+        kind: 'image' as const,
+        image: imageOrder[index],
+        content: null,
+      },
+    ];
+  }),
   {
     className: 'cw welcome-card',
     duration: 1800,
