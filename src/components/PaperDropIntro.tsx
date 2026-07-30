@@ -24,14 +24,14 @@ const loaderImagePaths = [
 const textCards = [
   {
     className: 'c1 loader-copy--word',
-    duration: 1400,
-    imageDuration: 1200,
+    duration: 950,
+    imageDuration: 850,
     content: <div className="big-char" lang="ar" dir="rtl">فكرة</div>,
   },
   {
     className: 'c2 loader-copy--field loader-copy--field-horizontal',
-    duration: 1050,
-    imageDuration: 900,
+    duration: 760,
+    imageDuration: 680,
     content: (
       <div className="loader-copy__field" lang="en">
         <p>Observe the system.</p>
@@ -42,8 +42,8 @@ const textCards = [
   },
   {
     className: 'c3 loader-copy--field loader-copy--field-vertical',
-    duration: 780,
-    imageDuration: 680,
+    duration: 610,
+    imageDuration: 550,
     content: (
       <div className="loader-copy__field" lang="fr">
         <p>Chaque détail raconte une histoire.</p>
@@ -54,19 +54,19 @@ const textCards = [
   },
   {
     className: 'c4 loader-copy--word',
-    duration: 580,
-    imageDuration: 500,
+    duration: 490,
+    imageDuration: 440,
     content: <div className="big-char" lang="ar" dir="rtl">اكتشاف</div>,
   },
   {
     className: 'c5 loader-copy--number',
-    duration: 430,
-    imageDuration: 370,
+    duration: 395,
+    imageDuration: 355,
     content: <div className="big-num">03</div>,
   },
   {
     className: 'c1 loader-copy--field loader-copy--field-horizontal',
-    duration: 320,
+    duration: 315,
     imageDuration: 280,
     content: (
       <div className="loader-copy__field">
@@ -162,25 +162,16 @@ const textCards = [
   },
 ] as const;
 
-const paceClass = (index: number) => {
-  if (index < 3) return 'portfolio-loader__card--slow';
-  if (index < 7) return 'portfolio-loader__card--ramp';
-  return 'portfolio-loader__card--rapid';
-};
-
 const createLoaderCards = (imageOrder: readonly string[]) => [
   ...textCards.flatMap((card, index) => {
-    const cadence = paceClass(index);
-
     return [
       {
         ...card,
-        className: `${card.className} ${cadence}`,
         kind: 'word' as const,
         image: null,
       },
       {
-        className: `${card.className} ${cadence}`,
+        className: card.className,
         duration: card.imageDuration,
         kind: 'image' as const,
         image: imageOrder[index],
