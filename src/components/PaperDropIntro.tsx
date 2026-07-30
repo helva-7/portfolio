@@ -3,15 +3,19 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { withBasePath } from '../lib/base-path';
 
+interface PaperDropIntroProps {
+  onComplete?: () => void;
+}
+
 const loaderImagePaths = [
   '/images/loader/portfolio7.jpg',
-  '/images/loader/portfoliointro2.gif',
+  '/images/loader/portfoliointro2.mp4',
   '/images/loader/portfolio4.jpg',
   '/images/loader/portfolio11.jpg',
   '/images/loader/portfolio_intro.jpg',
   '/images/loader/portfolio9.jpg',
   '/images/loader/portfolio3.jpg',
-  '/images/loader/portfolioreplace.gif',
+  '/images/loader/portfolioreplace.mp4',
   '/images/loader/portfolio6.jpg',
   '/images/loader/portfolio5.jpg',
   '/images/loader/portfoliointro2.jpg',
@@ -20,6 +24,8 @@ const loaderImagePaths = [
   '/images/loader/portfolioreplace2.jpg',
   '/images/loader/portfolioreplace3.jpg',
 ] as const;
+
+const isVideoPath = (path: string) => path.endsWith('.mp4');
 
 const textCards = [
   {
@@ -208,7 +214,7 @@ function shuffleImages(images: readonly string[]) {
  * A Bakemonogatari-inspired multilingual loader adapted to the portfolio's
  * visual system, alternating editorial text compositions and project imagery.
  */
-export default function PaperDropIntro() {
+export default function PaperDropIntro({ onComplete }: PaperDropIntroProps) {
   const stageRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
   const timeoutsRef = useRef<Array<ReturnType<typeof setTimeout>>>([]);
@@ -227,11 +233,20 @@ export default function PaperDropIntro() {
     if (!stage || !progress) return;
 
     const cards = stage.querySelectorAll<HTMLElement>('.portfolio-loader__card');
-    cards.forEach((card) => card.classList.remove('active'));
+    cards.forEach((card) => {
+      card.classList.remove('active');
+      card.querySelector<HTMLVideoElement>('video')?.pause();
+    });
     if (index >= cards.length) return;
 
     const card = cards[index];
     card.classList.add('active');
+
+    const activeVideo = card.querySelector<HTMLVideoElement>('video');
+    if (activeVideo) {
+      activeVideo.currentTime = 0;
+      void activeVideo.play().catch(() => {});
+    }
 
     const duration = Number(card.dataset.duration) || 300;
     const doesBump = card.dataset.bump === 'true';
@@ -269,7 +284,10 @@ export default function PaperDropIntro() {
     if (!stage || !progress) return;
 
     const cards = stage.querySelectorAll<HTMLElement>('.portfolio-loader__card');
-    cards.forEach((card) => card.classList.remove('active'));
+    cards.forEach((card) => {
+      card.classList.remove('active');
+      card.querySelector<HTMLVideoElement>('video')?.pause();
+    });
     cards[cards.length - 1]?.classList.add('active');
     progress.style.width = '0%';
     progress.style.transition = 'none';
@@ -278,18 +296,16 @@ export default function PaperDropIntro() {
   const enterSite = useCallback(() => {
     clearAll();
     setIsOpen(false);
-  }, [clearAll]);
+    onComplete?.();
+  }, [clearAll, onComplete]);
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       setIsOpen(false);
+      onComplete?.();
       return;
     }
 
-    loaderImagePaths.forEach((path) => {
-      const image = new window.Image();
-      image.src = withBasePath(path);
-    });
     setImageOrder(shuffleImages(loaderImagePaths));
 
     const previousOverflow = document.body.style.overflow;
@@ -300,7 +316,7 @@ export default function PaperDropIntro() {
       clearAll();
       document.body.style.overflow = previousOverflow;
     };
-  }, [clearAll, restartSequence]);
+  }, [clearAll, onComplete, restartSequence]);
 
   useEffect(() => {
     if (!isOpen) document.body.style.overflow = '';
@@ -318,12 +334,24 @@ export default function PaperDropIntro() {
           data-bump={card.kind === 'welcome' ? 'true' : undefined}
         >
           {card.kind === 'image' && card.image ? (
-            <img
-              className="portfolio-loader__image"
-              src={withBasePath(card.image)}
-              alt=""
-              draggable={false}
-            />
+            isVideoPath(card.image) ? (
+              <video
+                className="portfolio-loader__image"
+                src={withBasePath(card.image)}
+                muted
+                loop
+                playsInline
+                preload="auto"
+              />
+            ) : (
+              <img
+                className="portfolio-loader__image"
+                src={withBasePath(card.image)}
+                alt=""
+                decoding="async"
+                draggable={false}
+              />
+            )
           ) : card.content}
           {card.kind === 'welcome' && (
             <button type="button" className="portfolio-loader__enter" onClick={enterSite}>
